@@ -1,52 +1,58 @@
+# Exported from Render on 2024-10-26T10:33:10Z
 services:
 - type: web
-  name: nur_day_care_test
+  name: nursery_daycare_backend
   runtime: python
   repo: https://github.com/HeyMrQuaidoo/nursery_daycare_backend
-  branch: main
-  plan: starter
+  plan: free
   envVars:
+  - key: CACHE_PATH
+    sync: false
+  - key: REFRESH_TOKEN_EXPIRE_MINUTES
+    sync: false
+  - key: ACCESS_TOKEN_EXPIRE_MINUTES
+    sync: false
+  - key: ENCRYPT_KEY
+    sync: false
   - key: EMAIL_SERVER
     sync: false
   - key: EMAIL_PASSWORD
     sync: false
   - key: EMAIL
     sync: false
-  - key: PYTHON_VERSION
-    sync: false
-  - key: PIPENV_IGNORE_VIRTUALENVS
-    sync: false
-  - key: LOG_LEVEL
-    sync: false
   - key: JWT_SECRET
     sync: false
   - key: JWT_ALGORITHM
+    sync: false
+  - key: CLOUDINARY_API_SECRET
+    sync: false
+  - key: CLOUDINARY_API_KEY
+    sync: false
+  - key: CLOUDINARY_CLOUD_NAME
+    sync: false
+  - key: GOOGLE_CALLBACK
     sync: false
   - key: GOOGLE_SIGNIN_CLIENT_SECRET
     sync: false
   - key: GOOGLE_SIGNIN_CLIENT_ID
     sync: false
-  - key: GOOGLE_CALLBACK
-    sync: false
-  - key: DB_USER
-    sync: false
-  - key: DB_PORT
-    sync: false
-  - key: DB_PASSWORD
-    sync: false
-  - key: DB_HOST
+  - key: DB_DATABASE_DEFAULT
     sync: false
   - key: DB_ENGINE
     sync: false
-  - key: DB_DATABASE_DEFAULT
-    sync: false
   - key: DB_DATABASE
     sync: false
-  - key: CLOUDINARY_CLOUD_NAME
+  - key: DB_PORT
     sync: false
-  - key: CLOUDINARY_API_SECRET
+  - key: DB_HOST
     sync: false
-  - key: CLOUDINARY_API_KEY
+  - key: DB_PASSWORD
+    sync: false
+  - key: DB_USER
+    sync: false
+  - key: PYTHON_VERSION
+    sync: false
+  - key: LOG_LEVEL
     sync: false
   - key: APP_URL
     sync: false
