@@ -1,0 +1,21 @@
+{
+  "entity_child_attrs": {
+    "association_class": " <class app.modules.billing.models.invoice.Invoice>",
+    "entity_param_key": "invoice",
+    "entity_params_attr": { "transaction_number": "transaction_number" },
+    "item_params_attr": {
+      "invoice_id": "invoice_id",
+      "invoice_number": "invoice_number",
+      "issued_by": "user_id",
+      "issued_to": "user_id",
+      "invoice_details": "invoice_details",
+      "invoice_amount": "invoice_amount",
+      "due_date": "due_date",
+      "date_paid": "date_paid",
+      "invoice_type": "invoice_type",
+      "status": "status",
+      "created_at": "created_at",
+      "updated_at": "updated_at"
+    }
+  }
+}

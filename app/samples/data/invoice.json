@@ -1,0 +1,37 @@
+{
+  "issued_by": "0d5340d2-046b-42d9-9ef5-0233b79b6642",
+  "issued_to": "0d5340d2-046b-42d9-9ef5-0233b79b6642",
+  "invoice_details": "Consulting services and utilities for the month of June 2024",
+  "invoice_amount": 1700.00,
+  "due_date": "2024-07-31T23:59:59",
+  "date_paid": null,
+  "status": "pending",
+  "invoice_items": [
+    {
+      "description": "Consulting fee",
+      "quantity": 10,
+      "unit_price": 100.00,
+      "total_price": 1000.00
+    },
+    {
+      "description": "Development fee",
+      "quantity": 5,
+      "unit_price": 100.00,
+      "total_price": 500.00
+    },
+    {
+      "reference_id": "2bc5389b-98b2-4cdc-ac6f-7d41e76f6f23",
+      "description": "Electricity utility charge",
+      "quantity": 1,
+      "unit_price": 100.00,
+      "total_price": 100.00
+    },
+    {
+      "reference_id": "9e134f25-528f-407a-85f7-9760118f8149",
+      "description": "Water utility charge",
+      "quantity": 1,
+      "unit_price": 100.00,
+      "total_price": 100.00
+    }
+  ]
+}

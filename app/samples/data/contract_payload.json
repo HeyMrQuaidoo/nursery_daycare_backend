@@ -1,0 +1,35 @@
+{
+    "contract_type": "rent",
+    "payment_type": "one_time",
+    "contract_status": "active",
+    "contract_details": "string",
+    "payment_amount": 0,
+    "fee_percentage": 0,
+    "fee_amount": 0,
+    "date_signed": "2024-06-23T19:11:07.570Z",
+    "start_date": "2024-06-23T19:11:07.570Z",
+    "end_date": "2024-06-23T19:11:07.570Z",
+    "contract_info": [
+      {
+        "property_unit_assoc": "772a6aad-1e3b-4035-8746-12f162443a9b",
+        "contract_status": "active",
+        "client_id": "0d5340d2-046b-42d9-9ef5-0233b79b6642",
+        "employee_id": "0d5340d2-046b-42d9-9ef5-0233b79b6642"
+      }
+    ],
+    "utilities": [
+      {
+        "payment_type": "one_time",
+        "billable_amount": "100",
+        "apply_to_units": false,
+        "billable_id": "2bc5389b-98b2-4cdc-ac6f-7d41e76f6f23"
+      },
+      {
+        "payment_type": "one_time",
+        "billable_amount": "200",
+        "apply_to_units": false,
+        "billable_id": "9e134f25-528f-407a-85f7-9760118f8149"
+      }
+    ]
+  }
+  

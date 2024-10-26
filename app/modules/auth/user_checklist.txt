@@ -1,0 +1,20 @@
+User
+====
+- roles - Done
+- company  - Done
+- favorites
+- interactions
+- address - Done
+- accounts - Done
+- documents
+- transactions
+- tours
+- events
+- maintenance_requests
+- property_assignments - Done [ Not Tested ]
+- contract
+- rental_history - Done
+-------------------
+- user_auth_info - Done
+- user_employer_info - Done
+- user_emergency_info - Done

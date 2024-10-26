@@ -1,0 +1,67 @@
+address
+-------
+- address [dao, schema]
+- city [dao, schema[integrated]]
+- country [dao, schema[integrated]]
+- region [dao, schema[integrated]]
+
+
+associations
+------------
+- entity_accounts
+- entity_address
+- entity_amenities
+- entity_billable
+- entity_company
+- entity_media
+
+
+auth
+----
+- permissions [dao, schema]
+- company []
+- role [dao, schema]
+- user [dao, schema]
+    - user_favorites
+    - user_interactions
+    - user_role
+------CHECKED OUT------
+
+billing
+-------
+- billable [schema]*
+
+------CHECKED OUT------
+- account [dao]
+- utility [dao, schema]
+- transaction_type [dao, schema]
+- payment_type [dao, schema]
+- invoice_item [dao, schema]
+- invoice [dao, schema]
+- transaction [dao, schema]
+
+contract
+--------
+- contract_invoice
+--CHECKED OUT---
+- contract [dao, schema]
+- contract_type [dao, schema]
+- under_contract [dao, schema]
+
+properties
+----------
+- unit_type
+- property_type
+- property_unit_association
+--------CHECKED OUT-----------
+- property_assignment [dao, schema]
+- property [dao, schema]
+- unit [dao, schema]
+- rental_history [dao, schema]
+
+resources
+---------
+- document
+--CHECKED OUT---
+- amenity [dao, schema]
+- media [dao, schema]

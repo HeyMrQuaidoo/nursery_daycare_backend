@@ -1,0 +1,43 @@
+{
+    '__module__': 'app.modules.properties.models.rental_history',
+    '__annotations__': {
+        'rental_history_id': sqlalchemy.orm.base.Mapped[uuid.UUID],
+        'start_date': sqlalchemy.orm.base.Mapped[sqlalchemy.sql.sqltypes.DateTime],
+        'end_date': sqlalchemy.orm.base.Mapped[sqlalchemy.sql.sqltypes.DateTime],
+        'property_owner_name': sqlalchemy.orm.base.Mapped[str],
+        'property_owner_email': sqlalchemy.orm.base.Mapped[str],
+        'property_owner_mobile': sqlalchemy.orm.base.Mapped[str],
+        'user_id': sqlalchemy.orm.base.Mapped[uuid.UUID],
+        'user': sqlalchemy.orm.base.Mapped[ForwardRef('User')],
+        'address': sqlalchemy.orm.base.Mapped[typing.List[ForwardRef('Addresses')]]
+    },
+    '__tablename__': 'past_rental_history',
+    'rental_history_id': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951b20>,
+    'start_date': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951bc0>,
+    'end_date': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x1069519e0>,
+    'property_owner_name': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951c60>,
+    'property_owner_email': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951d00>,
+    'property_owner_mobile': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951a80>,
+    'user_id': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951da0>,
+    'user': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x1069518a0>,
+    'address': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951940>,
+    '__doc__': None,
+    '_sa_class_manager': <ClassManager of <class 'app.modules.properties.models.rental_history.PastRentalHistory'> at 106936df0>,
+    'created_at': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951e40>,
+    'updated_at': <sqlalchemy.orm.attributes.InstrumentedAttribute object at 0x106951ee0>,
+    '__table__': Table(
+        'past_rental_history', MetaData(),
+        Column('rental_history_id', UUID(), table=<past_rental_history>, primary_key=True, nullable=False, default=CallableColumnDefault(<function uuid4 at 0x106950c20>)),
+        Column('start_date', DateTime(timezone=True), table=<past_rental_history>, nullable=False),
+        Column('end_date', DateTime(timezone=True), table=<past_rental_history>, nullable=False),
+        Column('property_owner_name', String(), table=<past_rental_history>, nullable=False),
+        Column('property_owner_email', String(), table=<past_rental_history>, nullable=False),
+        Column('property_owner_mobile', String(), table=<past_rental_history>, nullable=False),
+        Column('user_id', UUID(), ForeignKey('users.user_id'), table=<past_rental_history>, nullable=False),
+        Column('created_at', DateTime(timezone=True), table=<past_rental_history>, nullable=False, default=CallableColumnDefault(<function BaseModel.<lambda> at 0x106608400>)),
+        Column('updated_at', DateTime(timezone=True), table=<past_rental_history>, nullable=False, onupdate=CallableColumnDefault(<function BaseModel.<lambda> at 0x106608ae0>), default=CallableColumnDefault(<function BaseModel.<lambda> at 0x106608a40>)),
+        schema=None
+    ),
+    '__init__': <function __init__ at 0x106951760>,
+    '__mapper__': <Mapper at 0x10691dcd0; PastRentalHistory>
+}

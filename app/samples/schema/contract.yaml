@@ -1,0 +1,54 @@
+Contract model
+-------------
+contract_type
+payment_type
+contract_status
+contract_details
+payment_amount
+fee_percentage
+fee_amount
+date_signed
+start_date
+end_date
+
+Done
+-----
+
+features
+--------
+- contract_info [assign_users]
+- billable [utilities]
+
+{
+  "contract_type": "string",
+  "payment_type": "string",
+  "contract_status": "active",
+  "contract_details": "string",
+  "payment_amount": 0,
+  "fee_percentage": 0,
+  "fee_amount": 0,
+  "date_signed": "2024-09-01T22:18:25.770538",
+  "start_date": "2024-09-01T22:18:25.770543",
+  "end_date": "2024-10-07T12:40:07.745Z",
+  "contract_info": [
+    {
+      "under_contract_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "property_unit_assoc": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "contract_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "contract_status": "active",
+      "client_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "employee_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "start_date": "2024-10-07T12:40:07.745Z",
+      "end_date": "2024-10-07T12:40:07.745Z",
+      "next_payment_due": "2024-10-07T12:40:07.745Z"
+    }
+  ],
+  "utilities": [
+    {
+      "billable_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "payment_type": "string",
+      "billable_amount": 0,
+      "apply_to_units": false
+    }
+  ]
+}

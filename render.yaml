@@ -1,0 +1,59 @@
+services:
+- type: web
+  name: nur_day_care_test
+  runtime: python
+  repo: https://github.com/HeyMrQuaidoo/nursery_daycare_backend
+  branch: main
+  plan: starter
+  envVars:
+  - key: EMAIL_SERVER
+    sync: false
+  - key: EMAIL_PASSWORD
+    sync: false
+  - key: EMAIL
+    sync: false
+  - key: PYTHON_VERSION
+    sync: false
+  - key: PIPENV_IGNORE_VIRTUALENVS
+    sync: false
+  - key: LOG_LEVEL
+    sync: false
+  - key: JWT_SECRET
+    sync: false
+  - key: JWT_ALGORITHM
+    sync: false
+  - key: GOOGLE_SIGNIN_CLIENT_SECRET
+    sync: false
+  - key: GOOGLE_SIGNIN_CLIENT_ID
+    sync: false
+  - key: GOOGLE_CALLBACK
+    sync: false
+  - key: DB_USER
+    sync: false
+  - key: DB_PORT
+    sync: false
+  - key: DB_PASSWORD
+    sync: false
+  - key: DB_HOST
+    sync: false
+  - key: DB_ENGINE
+    sync: false
+  - key: DB_DATABASE_DEFAULT
+    sync: false
+  - key: DB_DATABASE
+    sync: false
+  - key: CLOUDINARY_CLOUD_NAME
+    sync: false
+  - key: CLOUDINARY_API_SECRET
+    sync: false
+  - key: CLOUDINARY_API_KEY
+    sync: false
+  - key: APP_URL
+    sync: false
+  - key: APP_NAME
+    sync: false
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: pip install -r requirements.txt && pipenv run uvicorn main:app --host
+    0.0.0.0 --port 10000
+version: "1"
