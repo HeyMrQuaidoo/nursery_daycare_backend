@@ -22,14 +22,18 @@ class EntityQuestionnaire(Base):
     entity_type: Mapped["EntityTypeEnum"] = mapped_column(Enum(EntityTypeEnum))
     questionnaire_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("questionnaires.questionnaire_id"),
+        ForeignKey("questionnaires.questionnaire_id", ondelete="CASCADE"),
         nullable=True,
     )
     question_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("questions.question_id"), nullable=True
+        UUID(as_uuid=True),
+        ForeignKey("questions.question_id", ondelete="CASCADE"),
+        nullable=True,
     )
     answer_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("answers.answer_id"), nullable=True
+        UUID(as_uuid=True),
+        ForeignKey("answers.answer_id", ondelete="CASCADE"),
+        nullable=True,
     )
     mark_as_read: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
 

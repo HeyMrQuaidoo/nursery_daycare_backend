@@ -25,10 +25,16 @@ class Questionnaire(Base):
     )
 
     # questions
-    questions: Mapped[List["Question"]] = relationship(
+    questionnaire_questions: Mapped[List["Question"]] = relationship(
         "Question",
         back_populates="questionnaire",
         cascade="all, delete",
+        lazy="selectin",
+    )
+    questions: Mapped[List["Question"]] = relationship(
+        "Question",
+        back_populates="questionnaire",
+        cascade="all, delete, delete-orphan",
         lazy="selectin",
         viewonly=True,
         collection_class=BaseModelCollection,

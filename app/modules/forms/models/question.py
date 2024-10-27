@@ -1,5 +1,4 @@
 import uuid
-from typing import List
 from sqlalchemy import UUID, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
@@ -8,7 +7,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.modules.forms.enums.questionnaire_enums import QuestionType
 
 # models
-from app.modules.common.models.model_base import BaseModel as Base, BaseModelCollection
+from app.modules.common.models.model_base import BaseModel as Base
 
 
 class Question(Base):
@@ -38,20 +37,15 @@ class Question(Base):
         "Questionnaire",
         back_populates="questions",
         lazy="selectin",
-        cascade="all, delete",
+        single_parent=True,
     )
 
     # answers
-    answers: Mapped[List["Answer"]] = relationship(
+    answers = relationship(
         "Answer",
-        secondary="entity_questionnaires",
-        primaryjoin="and_(Question.question_id==EntityQuestionnaire.entity_id, Question.question_id==EntityQuestionnaire.question_id, EntityQuestionnaire.entity_type=='questions')",
-        secondaryjoin="and_(EntityQuestionnaire.answer_id==Answer.answer_id)",
         back_populates="question",
-        cascade="all, delete",
+        cascade="all, delete-orphan",
         lazy="selectin",
-        viewonly=True,
-        collection_class=BaseModelCollection,
     )
 
 
