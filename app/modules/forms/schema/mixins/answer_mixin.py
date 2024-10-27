@@ -11,14 +11,11 @@ from app.modules.forms.enums.questionnaire_enums import AnswerType
 from app.modules.forms.models.answer import Answer as AnswerModel
 
 
-class AnswerMixin:
+class AnswerMixin(BaseSchema):
     _answer_type = BaseFaker.random_element([e.value for e in AnswerType])
     _content = BaseFaker.sentence()
 
     _answer_create_json = {
-        # "question_id": str(
-        #     UUID(int=1)
-        # ),  # Replace with realistic UUID example if available
         "answer_type": _answer_type[0],
         "content": _content,
     }
@@ -42,7 +39,7 @@ class AnswerMixin:
                     question_id=a.question_id,
                     answer_type=a.answer_type,
                     content=a.content,
-                ).model_dump()
+                ).model_dump(exclude=["mark_as_read"])
                 for a in answer
             ]
 
@@ -51,14 +48,16 @@ class AnswerMixin:
             question_id=answer.question_id,
             answer_type=answer.answer_type,
             content=answer.content,
-        ).model_dump()
+        ).model_dump(exclude=["mark_as_read"])
 
 
-class AnswerBase(BaseSchema, AnswerMixin):
+class AnswerBase(AnswerMixin):
     answer_id: Optional[UUID] = None
+    questionnaire_id: Optional[UUID] = None
     question_id: Optional[UUID] = None
     answer_type: AnswerType
     content: Optional[str] = None
+    mark_as_read: Optional[bool] = False
 
     @classmethod
     def model_validate(cls, answer: AnswerModel):

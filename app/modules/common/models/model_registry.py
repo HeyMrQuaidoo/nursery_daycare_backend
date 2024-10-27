@@ -128,12 +128,25 @@ class RelationshipConfigRegistry:
         item_params_attr: Dict[str, str],
     ):
         """Handle foreign key fields by populating entity_params_attr and item_params_attr."""
-        if column.foreign_keys:
-            for fk in column.foreign_keys:
-                if fk.column.table == model_class.__table__:
-                    entity_params_attr[field_name] = fk.column.name
-                else:
-                    item_params_attr[field_name] = fk.column.name
+        if not column.foreign_keys:
+            return
+
+        for fk in column.foreign_keys:
+            # check if the foreign key column's table matches the model's table
+            if fk.column.table == model_class.__table__:
+                # add the main field's foreign key
+                entity_params_attr[field_name] = fk.column.name
+
+                # include all additional foreign keys only once
+                entity_params_attr.update(
+                    {
+                        fk_col.column.name: fk_col.column.name
+                        for fk_col in fk.column.table.foreign_keys
+                    }
+                )
+                break
+            else:
+                item_params_attr[field_name] = fk.column.name
 
     # TODO: Add check to determine if relationship primaryjoin or secondary
     # join has certain conditions on the entity_id or entity_type fields

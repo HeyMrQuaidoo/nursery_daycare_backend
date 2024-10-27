@@ -20,6 +20,9 @@ class AnswerResponse(AnswerBase):
 
 
 class AnswerCreateSchema(AnswerBase):
+    questionnaire_id: Optional[UUID] = None
+    mark_as_read: Optional[bool] = False
+
     model_config = ConfigDict(
         from_attributes=True,
         json_schema_extra={"example": AnswerMixin._answer_create_json},

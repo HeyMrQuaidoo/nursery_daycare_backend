@@ -13,7 +13,7 @@ from app.modules.forms.enums.questionnaire_enums import QuestionType
 from app.modules.forms.models.question import Question as QuestionModel
 
 
-class QuestionMixin:
+class QuestionMixin(BaseSchema):
     _content = BaseFaker.sentence()
     # _question_type = BaseFaker.random_choices(["text", "multiple_choice", "boolean"], length=1)
     _question_type = BaseFaker.random_element([e.value for e in QuestionType])
@@ -59,7 +59,7 @@ class QuestionMixin:
         ).model_dump()
 
 
-class QuestionBase(BaseSchema, QuestionMixin):
+class QuestionBase(QuestionMixin):
     question_id: Optional[UUID] = None
     questionnaire_id: Optional[UUID] = None
     content: str

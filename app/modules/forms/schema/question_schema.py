@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import ConfigDict
 from typing import Optional
 
@@ -18,6 +19,8 @@ class QuestionResponse(QuestionBase, QuestionMixin):
 
 
 class QuestionCreateSchema(QuestionBase, QuestionMixin):
+    questionnaire_id: Optional[UUID] = None
+
     model_config = ConfigDict(
         from_attributes=True,
         json_schema_extra={"example": QuestionMixin._question_create_json},

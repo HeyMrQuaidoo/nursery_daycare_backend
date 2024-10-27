@@ -19,3 +19,129 @@
     }
   }
 }
+
+//
+{
+  "questions": {
+    "entity_questionnaires": {
+      "association_class": "<class 'app.modules.forms.models.entity_questionnaire.EntityQuestionnaire'>",
+      "entity_param_key": "entity_questionnaires",
+      "entity_params_attr": {
+        "entity_id": "question_id",
+        "entity_type": "questions",
+        "question_id": "question_id"
+      },
+      "item_params_attr": {
+        "entity_questionnaire_id": "entity_questionnaire_id",
+        "entity_type": "entity_type",
+        "questionnaire_id": "questionnaire_id",
+        "answer_id": "answer_id",
+        "mark_as_read": "mark_as_read",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    },
+    "questionnaire": {
+      "association_class": "<class 'app.modules.forms.models.questionnaire.Questionnaire'>",
+      "entity_param_key": "questionnaire",
+      "entity_params_attr": {},
+      "item_params_attr": {
+        "questionnaire_id": "questionnaire_id",
+        "title": "title",
+        "description": "description",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    },
+    "answers": {
+      "association_class": "<class 'app.modules.forms.models.entity_questionnaire.EntityQuestionnaire'>",
+      "entity_param_key": "answers",
+      "entity_params_attr": {
+        "entity_id": "question_id",
+        "entity_type": "questions",
+        "question_id": "question_id"
+      },
+      "item_params_attr": {
+        "entity_questionnaire_id": "entity_questionnaire_id",
+        "entity_type": "entity_type",
+        "questionnaire_id": "questionnaire_id",
+        "answer_id": "answer_id",
+        "mark_as_read": "mark_as_read",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    }
+  },
+  "questionnaires": {
+    "entity_questionnaires": {
+      "association_class": "<class 'app.modules.forms.models.entity_questionnaire.EntityQuestionnaire'>",
+      "entity_param_key": "entity_questionnaires",
+      "entity_params_attr": {
+        "entity_id": "questionnaire_id",
+        "entity_type": "questionnaires",
+        "questionnaire_id": "questionnaire_id"
+      },
+      "item_params_attr": {
+        "entity_questionnaire_id": "entity_questionnaire_id",
+        "entity_type": "entity_type",
+        "question_id": "question_id",
+        "answer_id": "answer_id",
+        "mark_as_read": "mark_as_read",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    },
+    "questions": {
+      "association_class": "<class 'app.modules.forms.models.question.Question'>",
+      "entity_param_key": "questions",
+      "entity_params_attr": {
+        "questionnaire_id": "questionnaire_id"
+      },
+      "item_params_attr": {
+        "question_id": "question_id",
+        "content": "content",
+        "question_type": "question_type",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    }
+  },
+  "answers": {
+    "entity_questionnaires": {
+      "association_class": "<class 'app.modules.forms.models.entity_questionnaire.EntityQuestionnaire'>",
+      "entity_param_key": "entity_questionnaires",
+      "entity_params_attr": {
+        "entity_id": "answer_id",
+        "entity_type": "answers",
+        "answer_id": "answer_id"
+      },
+      "item_params_attr": {
+        "entity_questionnaire_id": "entity_questionnaire_id",
+        "entity_type": "entity_type",
+        "questionnaire_id": "questionnaire_id",
+        "question_id": "question_id",
+        "mark_as_read": "mark_as_read",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    },
+    "question": {
+      "association_class": "<class 'app.modules.forms.models.entity_questionnaire.EntityQuestionnaire'>",
+      "entity_param_key": "question",
+      "entity_params_attr": {
+        "entity_id": "answer_id",
+        "entity_type": "answers",
+        "answer_id": "answer_id"
+      },
+      "item_params_attr": {
+        "entity_questionnaire_id": "entity_questionnaire_id",
+        "entity_type": "entity_type",
+        "questionnaire_id": "questionnaire_id",
+        "question_id": "question_id",
+        "mark_as_read": "mark_as_read",
+        "created_at": "created_at",
+        "updated_at": "updated_at"
+      }
+    }
+  }
+}
