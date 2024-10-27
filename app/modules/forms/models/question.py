@@ -1,3 +1,4 @@
+from typing import List
 import uuid
 from sqlalchemy import UUID, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship, Mapped, mapped_column
@@ -7,7 +8,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.modules.forms.enums.questionnaire_enums import QuestionType
 
 # models
-from app.modules.common.models.model_base import BaseModel as Base
+from app.modules.common.models.model_base import BaseModel as Base, BaseModelCollection
 
 
 class Question(Base):
@@ -41,13 +42,23 @@ class Question(Base):
     )
 
     # answers
-    answers = relationship(
+    # answers = relationship(
+    #     "Answer",
+    #     back_populates="question",
+    #     cascade="all, delete-orphan",
+    #     lazy="selectin",
+    # )
+    answers: Mapped[List["Answer"]] = relationship(
         "Answer",
+        secondary="entity_questionnaires",
+        primaryjoin="and_(Question.question_id==EntityQuestionnaire.entity_id, Question.question_id==EntityQuestionnaire.question_id, EntityQuestionnaire.entity_type=='questions')",
+        secondaryjoin="and_(EntityQuestionnaire.answer_id==Answer.answer_id)",
         back_populates="question",
-        cascade="all, delete-orphan",
+        cascade="all, delete",
         lazy="selectin",
+        viewonly=True,
+        collection_class=BaseModelCollection,
     )
-
 
 # register model
 Base.setup_model_dynamic_listener("questions", Question)

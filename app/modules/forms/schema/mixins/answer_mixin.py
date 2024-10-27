@@ -11,7 +11,7 @@ from app.modules.forms.enums.questionnaire_enums import AnswerType
 from app.modules.forms.models.answer import Answer as AnswerModel
 
 
-class AnswerMixin(BaseSchema):
+class AnswerMixin:
     _answer_type = BaseFaker.random_element([e.value for e in AnswerType])
     _content = BaseFaker.sentence()
 
@@ -51,7 +51,7 @@ class AnswerMixin(BaseSchema):
         ).model_dump(exclude=["mark_as_read"])
 
 
-class AnswerBase(AnswerMixin):
+class AnswerBase(BaseSchema):
     answer_id: Optional[UUID] = None
     questionnaire_id: Optional[UUID] = None
     question_id: Optional[UUID] = None

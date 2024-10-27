@@ -13,13 +13,13 @@ from app.modules.forms.models.answer import Answer as AnswerModel
 from app.modules.forms.schema.mixins.answer_mixin import AnswerMixin, AnswerBase
 
 
-class AnswerResponse(AnswerBase):
+class AnswerResponse(AnswerBase, AnswerMixin):
     @classmethod
     def model_validate(cls, answer: AnswerModel):
         return cls.get_answer_info(answer)
 
 
-class AnswerCreateSchema(AnswerBase):
+class AnswerCreateSchema(AnswerBase, AnswerMixin):
     questionnaire_id: Optional[UUID] = None
     mark_as_read: Optional[bool] = False
 
@@ -33,7 +33,7 @@ class AnswerCreateSchema(AnswerBase):
         return cls.get_answer_info(answer)
 
 
-class AnswerUpdateSchema(AnswerBase):
+class AnswerUpdateSchema(AnswerBase, AnswerMixin):
     question_id: UUID = None
     answer_type: AnswerType = None
     content: Optional[str] = None
