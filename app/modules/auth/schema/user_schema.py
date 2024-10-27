@@ -1,8 +1,11 @@
-from uuid import uuid4
+from uuid import UUID, uuid4
 from typing import Any, List, Optional, Union
 from datetime import date, timedelta, datetime
 
-from pydantic import ConfigDict, Field, model_validator
+from pydantic import ConfigDict, EmailStr, Field, model_validator
+
+# enums
+from app.modules.auth.enums.user_enums import GenderEnum
 
 # models
 from app.modules.auth.models.user import User as UserModel
@@ -24,30 +27,25 @@ from app.modules.auth.schema.mixins.user_emergency_schema import (
 )
 from app.modules.auth.schema.role_schema import RoleBase
 from app.modules.address.schema.address_schema import AddressBase
-
-# from app.modules.billing.schema.transaction_schema import TransactionBase
+from app.modules.forms.schema.mixins.answer_mixin import AnswerBase
+from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
+    EntityQuestionnaire,
+    EntityQuestionnaireMixin,
+)
 
 
 class UserSchema(UserBase):
     roles: Optional[List[RoleBase]] = []
-    # company: Optional[List[CompanyBase]] = []
-    # favorites: Optional[List[FavoritePropertiesBase]] = []
-    # interactions_as_user: Optional[List[UserInteractionsBase]] = []
     address: Optional[List[AddressBase]] = []
     accounts: Optional[List[AccountBase]] = []
-    # transactions_as_client_offered: Optional[List[TransactionBase]] = []
-    # transactions_as_client_requested: Optional[List[TransactionBase]] = []
-    # maintenance_requests: Optional[List[MaintenanceRequestBase]] = []
-    # tours: Optional[List[TourBase]] = []
-    # events: Optional[List[CalendarEventBase]] = []
 
 
-class UserResponse(UserHiddenFields, UserSchema):
+class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
     user_id: Optional[Any] = None
     user_auth_info: Optional[UserAuthInfo] = None
     user_employer_info: Optional[UserEmployerInfo] = None
     user_emergency_info: Optional[UserEmergencyInfo] = None
-    # property_assignment_count: int = 0
+    questionnaires: Union[List[EntityQuestionnaire] | EntityQuestionnaire | Any] = None
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -91,6 +89,42 @@ class UserResponse(UserHiddenFields, UserSchema):
                     "occupation_status": "Full-time",
                     "occupation_location": "New York",
                 },
+                "questions": [
+                    {
+                        "questionnaire_id": "1dff3cf1-9365-4c3a-aac5-5802ea9323a0",
+                        "content": "Out floor traditional physical you sure fall.",
+                        "question_type": "multichoice",
+                        "answers": [
+                            {
+                                "answer_type": "multichoice",
+                                "content": "Main available own candidate travel trip.",
+                                "mark_as_read": False,
+                            },
+                            {
+                                "answer_type": "multichoice",
+                                "content": "Officer field to probably fact offer.",
+                                "mark_as_read": False,
+                            },
+                        ],
+                    },
+                    {
+                        "questionnaire_id": "1dff3cf1-9365-4c3a-aac5-5802ea9323a0",
+                        "content": "Out floor traditional physical you sure fall.",
+                        "question_type": "multichoice",
+                        "answers": [
+                            {
+                                "answer_type": "multichoice",
+                                "content": "Main available own candidate travel trip.",
+                                "mark_as_read": False,
+                            },
+                            {
+                                "answer_type": "multichoice",
+                                "content": "Officer field to probably fact offer.",
+                                "mark_as_read": False,
+                            },
+                        ],
+                    },
+                ],
             }
         },
     )
@@ -134,8 +168,6 @@ class UserResponse(UserHiddenFields, UserSchema):
 
     @classmethod
     def model_validate(cls, user: Union[UserModel | Any]):
-        # user: UserModel = super().model_validate(user)
-
         return cls(
             user_id=user.user_id,
             first_name=user.first_name,
@@ -153,6 +185,10 @@ class UserResponse(UserHiddenFields, UserSchema):
             created_at=user.created_at,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
+            answers=user.answers,
+            questionnaires=cls.get_entity_questionnaire_info(
+                user.entity_questionnaires
+            ),
             # contracts=contracts,
             # contracts_count=len(contracts),
         ).model_dump(
@@ -179,11 +215,11 @@ class UserResponse(UserHiddenFields, UserSchema):
         )
 
 
-class UserCreateSchema(UserHiddenFields, UserSchema):
+class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
     user_auth_info: Optional[UserAuthInfo] = None
     user_employer_info: Optional[UserEmployerInfo] = None
     user_emergency_info: Optional[UserEmergencyInfo] = None
-    # property_assignment_count: int = 0
+    answers: Optional[List[AnswerBase]] = []
 
     # Faker attrributes
     _start_date = BaseFaker.date_between(start_date="-2y", end_date="-1y")
@@ -296,6 +332,26 @@ class UserCreateSchema(UserHiddenFields, UserSchema):
                         "bank_account_number": "GB38FYRR90680780656781",
                     }
                 ],
+                "answers": [
+                    {
+                        "answer_id": "be583bfd-4609-4a64-a156-e7ab9b45337a",
+                        "questionnaire_id": "6a8e0f5e-2653-4ee9-9b56-711133afaf4c",
+                        "question_id": "f7a0fe99-12b6-4dee-a14f-dd318d984b73",
+                        "answer_type": "text",
+                        "content": "Case some letter north.",
+                        "mark_as_read": False,
+                        "entity_type": "user",
+                    },
+                    {
+                        "answer_id": "c741e061-232b-4903-b168-f1bcd84aa97f",
+                        "questionnaire_id": "6a8e0f5e-2653-4ee9-9b56-711133afaf4c",
+                        "question_id": "f7a0fe99-12b6-4dee-a14f-dd318d984b73",
+                        "answer_type": "text",
+                        "content": "Eat another recently write go word expect.",
+                        "mark_as_read": False,
+                        "entity_type": "user",
+                    },
+                ],
             }
         },
     )
@@ -360,6 +416,10 @@ class UserCreateSchema(UserHiddenFields, UserSchema):
             created_at=user.created_at,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
+            questionnaires=cls.get_entity_questionnaire_info(
+                user.entity_questionnaires
+            ),
+            # questions=user.questions,
             # contracts=contracts,
             # contracts_count=len(contracts),
             for_insertion=for_insertion,
@@ -387,10 +447,22 @@ class UserCreateSchema(UserHiddenFields, UserSchema):
         )
 
 
-class UserUpdateSchema(UserHiddenFields, UserSchema):
+class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
+    user_id: Optional[UUID] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    gender: GenderEnum = None
+    date_of_birth: Optional[Any] = None
+    email: Optional[EmailStr] = None
+    phone_number: Optional[str] = None
+    identification_number: Optional[str] = None
+    photo_url: Optional[str] = None
+
     user_auth_info: Optional[UserAuthInfo] = None
     user_employer_info: Optional[UserEmployerInfo] = None
     user_emergency_info: Optional[UserEmergencyInfo] = None
+
+    answers: Optional[List[AnswerBase]] = []
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -431,6 +503,26 @@ class UserUpdateSchema(UserHiddenFields, UserSchema):
                     "occupation_status": "Full-time",
                     "occupation_location": "New York",
                 },
+                "answers": [
+                    {
+                        "answer_id": "be583bfd-4609-4a64-a156-e7ab9b45337a",
+                        "questionnaire_id": "6a8e0f5e-2653-4ee9-9b56-711133afaf4c",
+                        "question_id": "f7a0fe99-12b6-4dee-a14f-dd318d984b73",
+                        "answer_type": "text",
+                        "content": "Case some letter north.",
+                        "mark_as_read": False,
+                        "entity_type": "user",
+                    },
+                    {
+                        "answer_id": "c741e061-232b-4903-b168-f1bcd84aa97f",
+                        "questionnaire_id": "6a8e0f5e-2653-4ee9-9b56-711133afaf4c",
+                        "question_id": "f7a0fe99-12b6-4dee-a14f-dd318d984b73",
+                        "answer_type": "text",
+                        "content": "Eat another recently write go word expect.",
+                        "mark_as_read": False,
+                        "entity_type": "user",
+                    },
+                ],
             }
         },
     )
@@ -491,6 +583,10 @@ class UserUpdateSchema(UserHiddenFields, UserSchema):
             created_at=user.created_at,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
+            questionnaires=cls.get_entity_questionnaire_info(
+                user.entity_questionnaires
+            ),
+            # questions=user.questions
             # contracts=contracts,
             # contracts_count=len(contracts),
         ).model_dump(

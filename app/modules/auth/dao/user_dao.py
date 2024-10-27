@@ -7,6 +7,7 @@ from app.modules.auth.dao.role_dao import RoleDAO
 from app.modules.common.dao.base_dao import BaseDAO
 from app.modules.billing.dao.account_dao import AccountDAO
 from app.modules.address.dao.address_dao import AddressDAO
+from app.modules.forms.dao.answer_dao import AnswerDAO
 
 
 # models
@@ -20,10 +21,12 @@ class UserDAO(BaseDAO[User]):
         self.role_dao = RoleDAO()
         self.address_dao = AddressDAO()
         self.account_dao = AccountDAO()
+        self.answer_dao = AnswerDAO()
         self.detail_mappings = {
             "address": self.address_dao,
             "roles": self.role_dao,
             "accounts": self.account_dao,
+            "answers": self.answer_dao,
         }
 
         super().__init__(

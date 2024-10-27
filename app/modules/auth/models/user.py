@@ -164,6 +164,29 @@ class User(Base):
         lazy="selectin",
     )
 
+    # - questions
+    entity_questionnaires = relationship(
+        "EntityQuestionnaire",
+        primaryjoin="and_(User.user_id==EntityQuestionnaire.entity_id,EntityQuestionnaire.entity_type=='user') ",
+        foreign_keys="User.user_id",
+        remote_side="EntityQuestionnaire.entity_id",
+        cascade="all, delete",
+        viewonly=True,
+        lazy="selectin",
+        uselist=True,
+    )
+
+    answers: Mapped[List["Answer"]] = relationship(
+        "Answer",
+        secondary="entity_questionnaires",
+        primaryjoin="and_(User.user_id==EntityQuestionnaire.entity_id,  EntityQuestionnaire.entity_type=='user')",
+        secondaryjoin="and_(EntityQuestionnaire.answer_id==Answer.answer_id)",
+        cascade="all, delete, delete-orphan",
+        lazy="selectin",
+        viewonly=True,
+        collection_class=BaseModelCollection,
+    )
+
     def update_last_login_time(self):
         # Store the current login time in the last_login_time field
         self.last_login_time = self.current_login_time

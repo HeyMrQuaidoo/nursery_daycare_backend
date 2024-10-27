@@ -57,6 +57,15 @@ class EntityQuestionnaire(Base):
     # answer
     answer: Mapped["Answer"] = relationship("Answer", lazy="selectin")
 
+    # user
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="entity_questionnaires",
+        lazy="selectin",
+        foreign_keys="User.user_id",
+        primaryjoin="and_(User.user_id==EntityQuestionnaire.entity_id)",
+    )
+
     @validates("entity_type", "entity_id")
     def validate_entity(self, key, value, **kwargs):
         if key == "entity_id":
