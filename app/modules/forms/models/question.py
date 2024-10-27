@@ -60,5 +60,6 @@ class Question(Base):
         collection_class=BaseModelCollection,
     )
 
+
 # register model
 Base.setup_model_dynamic_listener("questions", Question)
