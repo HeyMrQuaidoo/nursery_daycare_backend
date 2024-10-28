@@ -66,6 +66,7 @@ class QuestionnaireMixin:
                     published=questionnaire.published,
                     publish_for_registration=questionnaire.publish_for_registration,
                     created_at=questionnaire.created_at,
+                    updated_at=questionnaire.updated_at,
                     number_of_responses=questionnaire.number_of_responses,
                     questions=[
                         QuestionResponse.model_validate(qs) for qs in q.questions
@@ -81,6 +82,7 @@ class QuestionnaireMixin:
             published=questionnaire.published,
             publish_for_registration=questionnaire.publish_for_registration,
             created_at=questionnaire.created_at,
+            updated_at=questionnaire.updated_at,
             number_of_responses=questionnaire.number_of_responses,
             questions=[
                 QuestionResponse.model_validate(qs) for qs in questionnaire.questions
@@ -96,6 +98,7 @@ class QuestionnaireBase(BaseSchema, QuestionnaireMixin):
     publish_for_registration: bool = False
     published: bool = False
     created_at: datetime = None
+    updated_at: datetime = None
     number_of_responses: int = 0
 
     @classmethod

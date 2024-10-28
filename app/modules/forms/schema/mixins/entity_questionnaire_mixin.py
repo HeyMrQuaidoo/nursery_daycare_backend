@@ -43,15 +43,17 @@ class EntityQuestionnaireMixin:
             Union[List[EntityQuestionnaireModel] | EntityQuestionnaireModel | Any],
         ],
     ) -> List[dict]:
+        print("HERE1")
+
         if not entity_questionnaire:
             return None
-
+        print("HERE2")
         if not isinstance(entity_questionnaire, list):
             entity_questionnaire = [entity_questionnaire]
 
         # nested dictionary structure
         data = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-
+        print("HERE3")
         # populate the nested structure with related details
         for eq in entity_questionnaire:
             # grouping by questionnaire_id, question_id, and answer_id
@@ -63,10 +65,14 @@ class EntityQuestionnaireMixin:
                     "entity_questionnaire_id": eq.entity_questionnaire_id,
                 }
             )
-
+        print("HERE4")
         result = []
         for questionnaire_id, questions in data.items():
             # Fetch questionnaire details
+            print(f"HERE5 {entity_questionnaire}")
+            for eq in entity_questionnaire:
+                print(eq.questionnaire)
+            print("FHA")
             questionnaire = next(
                 (
                     eq.questionnaire
@@ -75,7 +81,7 @@ class EntityQuestionnaireMixin:
                 ),
                 None,
             )
-
+            print("HERE6")
             questionnaire_dict = {
                 "questionnaire_id": questionnaire_id,
                 "title": questionnaire.title if questionnaire else None,
@@ -89,6 +95,7 @@ class EntityQuestionnaireMixin:
                 "description": questionnaire.description if questionnaire else None,
                 "questions": [],
             }
+            print("HERE7")
             for question_id, answers in questions.items():
                 # Fetch question details
                 question = next(
@@ -105,6 +112,7 @@ class EntityQuestionnaireMixin:
                     "content": question.content if question else None,
                     "answers": [],
                 }
+                print("HERE7")
                 for answer_id, answer_details in answers.items():
                     # Fetch answer details
                     answer = next(
@@ -123,6 +131,7 @@ class EntityQuestionnaireMixin:
                     }
                     question_dict["answers"].append(answer_dict)
                 questionnaire_dict["questions"].append(question_dict)
+            print("HERE8")
             result.append(questionnaire_dict)
 
         return result

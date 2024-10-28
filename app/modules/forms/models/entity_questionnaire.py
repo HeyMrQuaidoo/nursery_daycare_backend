@@ -1,7 +1,7 @@
 import uuid
 from importlib import import_module
-from sqlalchemy import UUID, ForeignKey, Enum, Boolean, CheckConstraint, event, inspect
 from sqlalchemy.orm import relationship, Mapped, mapped_column, validates, Session
+from sqlalchemy import UUID, ForeignKey, Enum, Boolean, CheckConstraint, event, inspect
 
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
 
@@ -49,14 +49,19 @@ class EntityQuestionnaire(Base):
 
     # questionnaire
     questionnaire: Mapped["Questionnaire"] = relationship(
-        "Questionnaire", back_populates="entity_questionnaires", lazy="selectin"
+        "Questionnaire",
+        back_populates="entity_questionnaires",
+        lazy="selectin",
+        viewonly=True,
     )
 
     # question
-    question: Mapped["Question"] = relationship("Question", lazy="selectin")
+    question: Mapped["Question"] = relationship(
+        "Question", lazy="selectin", viewonly=True
+    )
 
     # answer
-    answer: Mapped["Answer"] = relationship("Answer", lazy="selectin")
+    answer: Mapped["Answer"] = relationship("Answer", lazy="selectin", viewonly=True)
 
     # user
     user: Mapped["User"] = relationship(
@@ -64,6 +69,7 @@ class EntityQuestionnaire(Base):
         back_populates="entity_questionnaires",
         lazy="selectin",
         foreign_keys="User.user_id",
+        viewonly=True,
         primaryjoin="and_(User.user_id==EntityQuestionnaire.entity_id)",
     )
 
@@ -121,3 +127,4 @@ def increment_number_of_responses(mapper, connection, target):
                     )
                     session.add(questionnaire)
                     session.commit()  # Save the updated number_of_responses
+                session.close()
