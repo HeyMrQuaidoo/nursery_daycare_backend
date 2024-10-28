@@ -44,7 +44,7 @@ class EntityQuestionnaireMixin:
         ],
     ) -> List[dict]:
         if not entity_questionnaire:
-            return []
+            return None
 
         if not isinstance(entity_questionnaire, list):
             entity_questionnaire = [entity_questionnaire]
@@ -79,6 +79,13 @@ class EntityQuestionnaireMixin:
             questionnaire_dict = {
                 "questionnaire_id": questionnaire_id,
                 "title": questionnaire.title if questionnaire else None,
+                "number_of_responses": questionnaire.number_of_responses
+                if questionnaire
+                else None,
+                "publish_for_registration": questionnaire.publish_for_registration
+                if questionnaire
+                else None,
+                "published": questionnaire.published if questionnaire else None,
                 "description": questionnaire.description if questionnaire else None,
                 "questions": [],
             }

@@ -14,7 +14,10 @@ from app.modules.auth.models.user import User as UserModel
 from app.modules.common.schema.base_schema import BaseFaker
 from app.modules.billing.schema.account_schema import AccountBase
 from app.modules.address.schema.address_mixin import AddressMixin
-from app.modules.auth.schema.mixins.user_auth_schema import UserAuthCreateInfo, UserAuthInfo
+from app.modules.auth.schema.mixins.user_auth_schema import (
+    UserAuthCreateInfo,
+    UserAuthInfo,
+)
 from app.modules.auth.schema.mixins.user_mixin import (
     UserBase,
     UserHiddenFields,
@@ -35,6 +38,7 @@ from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
 
 # core
 from app.core.security import Hash
+
 
 class UserSchema(UserBase):
     roles: Optional[List[RoleBase]] = []
@@ -466,6 +470,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
     user_emergency_info: Optional[UserEmergencyInfo] = None
 
     answers: Optional[List[AnswerBase]] = []
+    questionnaires: Union[List[EntityQuestionnaire] | EntityQuestionnaire | Any] = None
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -610,5 +615,6 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "employer_name",
                 "occupation_status",
                 "occupation_location",
+                "answers",
             ],
         )

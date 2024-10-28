@@ -1,6 +1,7 @@
 import uuid
-from sqlalchemy import UUID, ForeignKey, Enum, Boolean, CheckConstraint
-from sqlalchemy.orm import relationship, Mapped, mapped_column, validates
+from importlib import import_module
+from sqlalchemy import UUID, ForeignKey, Enum, Boolean, CheckConstraint, event, inspect
+from sqlalchemy.orm import relationship, Mapped, mapped_column, validates, Session
 
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
 
@@ -89,3 +90,34 @@ class EntityQuestionnaire(Base):
                 entity_map=entity_map,
             )
         return value
+
+
+@event.listens_for(EntityQuestionnaire, "after_insert")
+def increment_number_of_responses(mapper, connection, target):
+    state = inspect(target)
+
+    if state.attrs.questionnaire_id.history.has_changes():
+        # Only update if the entity_type is "user"
+        if target.entity_type == EntityTypeEnum.user.name:
+            models_module = import_module("app.modules.forms.models.questionnaire")
+            questionnaire_model = getattr(models_module, "Questionnaire")
+
+            # Access the session to update the Questionnaire model
+            session = Session(connection)
+
+            if session is not None:
+                # Find the Questionnaire record and increment number_of_responses
+                questionnaire = (
+                    session.query(questionnaire_model)
+                    .filter(
+                        questionnaire_model.questionnaire_id == target.questionnaire_id
+                    )
+                    .one_or_none()
+                )
+
+                if questionnaire:
+                    questionnaire.number_of_responses = (
+                        questionnaire.number_of_responses + 1
+                    )
+                    session.add(questionnaire)
+                    session.commit()  # Save the updated number_of_responses
