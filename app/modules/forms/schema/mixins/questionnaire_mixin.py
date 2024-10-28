@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 from typing import Any, List, Optional, Union
 
@@ -64,6 +65,8 @@ class QuestionnaireMixin:
                     description=q.description,
                     published=questionnaire.published,
                     publish_for_registration=questionnaire.publish_for_registration,
+                    created_at=questionnaire.created_at,
+                    number_of_responses=questionnaire.number_of_responses,
                     questions=[
                         QuestionResponse.model_validate(qs) for qs in q.questions
                     ],
@@ -77,6 +80,8 @@ class QuestionnaireMixin:
             description=questionnaire.description,
             published=questionnaire.published,
             publish_for_registration=questionnaire.publish_for_registration,
+            created_at=questionnaire.created_at,
+            number_of_responses=questionnaire.number_of_responses,
             questions=[
                 QuestionResponse.model_validate(qs) for qs in questionnaire.questions
             ],
@@ -90,6 +95,8 @@ class QuestionnaireBase(BaseSchema, QuestionnaireMixin):
     questions: Optional[List[QuestionBase]] = None
     publish_for_registration: bool = False
     published: bool = False
+    created_at: datetime = None
+    number_of_responses: int = 0
 
     @classmethod
     def model_validate(cls, questionnaire: QuestionnaireModel):
