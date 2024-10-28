@@ -14,7 +14,7 @@ from app.modules.auth.models.user import User as UserModel
 from app.modules.common.schema.base_schema import BaseFaker
 from app.modules.billing.schema.account_schema import AccountBase
 from app.modules.address.schema.address_mixin import AddressMixin
-from app.modules.auth.schema.mixins.user_auth_schema import UserAuthInfo
+from app.modules.auth.schema.mixins.user_auth_schema import UserAuthCreateInfo, UserAuthInfo
 from app.modules.auth.schema.mixins.user_mixin import (
     UserBase,
     UserHiddenFields,
@@ -216,7 +216,7 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
 
 
 class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
-    user_auth_info: Optional[UserAuthInfo] = None
+    user_auth_info: Optional[UserAuthCreateInfo] = None
     user_employer_info: Optional[UserEmployerInfo] = None
     user_emergency_info: Optional[UserEmergencyInfo] = None
     answers: Optional[List[AnswerBase]] = []
@@ -386,6 +386,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 values.is_subscribed = values.user_auth_info.is_subscribed
                 values.current_login_time = values.user_auth_info.current_login_time
                 values.last_login_time = values.user_auth_info.last_login_time
+                values.password = values.user_auth_info.password
 
             # user_employer_info
             if values.user_employer_info:

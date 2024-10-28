@@ -69,6 +69,7 @@ class UserHiddenFields(BaseSchema):
     is_subscribed: Optional[bool] = Field(None, hidden=True)
     current_login_time: Optional[datetime] = Field(None, hidden=True)
     last_login_time: Optional[datetime] = Field(None, hidden=True)
+    password: Optional[str] = Field(None, hidden=True)
 
     # employer info
     employer_name: Optional[str] = Field(None, hidden=True)
