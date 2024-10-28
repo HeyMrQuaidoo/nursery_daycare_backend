@@ -24,6 +24,8 @@ class QuestionnaireMixin:
     _questionnaire_create_json = {
         "title": _title,
         "description": _description,
+        "published": False,
+        "publish_for_registration": False,
         "questions": [
             {
                 "content": _content,
@@ -60,6 +62,8 @@ class QuestionnaireMixin:
                     questionnaire_id=q.questionnaire_id,
                     title=q.title,
                     description=q.description,
+                    published=questionnaire.published,
+                    publish_for_registration=questionnaire.publish_for_registration,
                     questions=[
                         QuestionResponse.model_validate(qs) for qs in q.questions
                     ],
@@ -71,6 +75,8 @@ class QuestionnaireMixin:
             questionnaire_id=questionnaire.questionnaire_id,
             title=questionnaire.title,
             description=questionnaire.description,
+            published=questionnaire.published,
+            publish_for_registration=questionnaire.publish_for_registration,
             questions=[
                 QuestionResponse.model_validate(qs) for qs in questionnaire.questions
             ],
@@ -82,6 +88,8 @@ class QuestionnaireBase(BaseSchema, QuestionnaireMixin):
     title: str
     description: str
     questions: Optional[List[QuestionBase]] = None
+    publish_for_registration: bool = False
+    published: bool = False
 
     @classmethod
     def model_validate(cls, questionnaire: QuestionnaireModel):

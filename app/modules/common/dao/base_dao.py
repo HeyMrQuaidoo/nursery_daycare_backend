@@ -91,10 +91,13 @@ class BaseDAO(DBOperations, Generic[DBModelType]):
         request: Request,
         limit: int,
         offset: int,
+        filter_condition: Dict[str, Any] = None,
         db_session: AsyncSession = Depends(get_db),
     ) -> Dict[str, Any]:
         base_url = request.url.path
-        total = await self.query_count(db_session=db_session)
+        total = await self.query_count(
+            db_session=db_session, filter_condition=filter_condition
+        )
 
         next_offset = offset + limit
         previous_offset = max(0, offset - limit)

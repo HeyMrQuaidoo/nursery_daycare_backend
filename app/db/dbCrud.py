@@ -479,10 +479,26 @@ class ReadMixin(BaseMixin):
             else query_result.scalars().all()
         )
 
-    async def query_count(self, db_session: AsyncSession) -> int:
-        executed_query = await db_session.execute(
-            select(func.count()).select_from(self.model)
-        )
+    # async def query_count(self, db_session: AsyncSession) -> int:
+    #     executed_query = await db_session.execute(
+    #         select(func.count()).select_from(self.model)
+    #     )
+    #     count = executed_query.scalar()
+
+    #     return count
+    async def query_count(
+        self, db_session: AsyncSession, filter_condition: Dict[str, Any] = None
+    ) -> int:
+        query = select(func.count()).select_from(self.model)
+
+        if filter_condition:
+            filters = [
+                getattr(self.model, key) == value
+                for key, value in filter_condition.items()
+            ]
+            query = query.where(and_(*filters))
+
+        executed_query = await db_session.execute(query)
         count = executed_query.scalar()
 
         return count

@@ -22,9 +22,7 @@ from app.modules.common.schema.schemas import UserSchema
 from app.modules.auth.schema.auth_schema import Login, ResetPassword
 
 RESET_LINK = "https://housekee.netlify.app/account-recovery?token={}"
-UNSUBSCRIBE_LINK = (
-    "https://hskee-hsm-backend-test/auth/mail-unsubscribe?email={}&token={}"
-)
+UNSUBSCRIBE_LINK = "https://nursery-daycare-backend.onrender.com/auth/mail-unsubscribe?email={}&token={}"
 
 
 class AuthRouter(BaseCRUDRouter):

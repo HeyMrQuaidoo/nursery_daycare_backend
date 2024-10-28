@@ -1,6 +1,6 @@
 import uuid
 from typing import List
-from sqlalchemy import UUID, Text, String
+from sqlalchemy import UUID, Boolean, Text, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # models
@@ -15,6 +15,10 @@ class Questionnaire(Base):
     )
     title: Mapped[str] = mapped_column(String(80))
     description: Mapped[str] = mapped_column(Text)
+    publish_for_registration: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=True
+    )
+    published: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
 
     # entity_questionnaires
     entity_questionnaires: Mapped[List["EntityQuestionnaire"]] = relationship(
