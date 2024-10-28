@@ -33,6 +33,8 @@ from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
     EntityQuestionnaireMixin,
 )
 
+# core
+from app.core.security import Hash
 
 class UserSchema(UserBase):
     roles: Optional[List[RoleBase]] = []
@@ -386,7 +388,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 values.is_subscribed = values.user_auth_info.is_subscribed
                 values.current_login_time = values.user_auth_info.current_login_time
                 values.last_login_time = values.user_auth_info.last_login_time
-                values.password = values.user_auth_info.password
+                values.password = Hash.bcrypt(values.user_auth_info.password)
 
             # user_employer_info
             if values.user_employer_info:
