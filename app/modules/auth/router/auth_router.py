@@ -23,7 +23,7 @@ from app.modules.common.router.base_router import BaseCRUDRouter
 from app.modules.common.schema.schemas import UserSchema
 from app.modules.auth.schema.auth_schema import Login, ResetPassword
 
-RESET_LINK = "https://housekee.netlify.app/account-recovery?token={}"
+RESET_LINK = "https://aleva-care.netlify.app/account-recovery?token={}"
 UNSUBSCRIBE_LINK = "https://nursery-daycare-backend.onrender.com/auth/mail-unsubscribe?email={}&token={}"
 
 
