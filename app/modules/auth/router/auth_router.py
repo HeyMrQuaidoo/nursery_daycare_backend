@@ -2,7 +2,9 @@ import uuid
 import asyncio
 from typing import List, Union
 from fastapi import Depends, HTTPException
+from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
+
 
 # models
 from app.modules.auth.models.user import User
@@ -137,7 +139,7 @@ class AuthRouter(BaseCRUDRouter):
                 )
 
                 if response:
-                    return {"data": "User successfully verified!"}
+                    return RedirectResponse(url="hhttps://aleva-care.netlify.app/login")
                 else:
                     raise HTTPException(
                         status_code=400,
