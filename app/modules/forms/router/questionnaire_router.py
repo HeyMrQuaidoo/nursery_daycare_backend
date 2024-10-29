@@ -1,8 +1,18 @@
 from uuid import UUID
 from sqlalchemy import select
 from typing import List, Union
+from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload
 from fastapi import Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
+
+
+
+# enums
+from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
+
+# models
+from app.modules.forms.models.entity_questionnaire import EntityQuestionnaire
 
 # dao
 from app.modules.forms.dao.questionnaire_dao import QuestionnaireDAO
@@ -22,14 +32,6 @@ from app.core.response import DAOResponse
 from app.core.errors import CustomException, RecordNotFoundException, IntegrityError
 
 
-from sqlalchemy.orm import Session
-from sqlalchemy.future import select
-from sqlalchemy.orm import selectinload
-from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
-from app.modules.forms.models.entity_questionnaire import EntityQuestionnaire
-from app.modules.forms.models.question import Question
-from app.modules.forms.models.answer import Answer
-from app.modules.forms.models.questionnaire import Questionnaire
 
 
 class QuestionnaireRouter(BaseCRUDRouter):

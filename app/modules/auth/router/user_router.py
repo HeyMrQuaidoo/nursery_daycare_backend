@@ -1,9 +1,14 @@
 from typing import List
+from sqlalchemy import func
+from sqlalchemy.future import select
 from fastapi import Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # dao
 from app.modules.auth.dao.user_dao import UserDAO
+
+# models
+from app.modules.auth.models.user import User
 
 # router
 from app.modules.common.router.base_router import BaseCRUDRouter
@@ -26,6 +31,45 @@ class UserRouter(BaseCRUDRouter):
         self.register_routes()
 
     def register_routes(self):
+        @self.router.get("/stats/")
+        async def get_user_stats(db_session: AsyncSession = Depends(self.get_db)):
+            # Query for the count of registered users (is_verified=True and is_onboarded=True)
+            registered_query = (
+                select(func.count(User.user_id))
+                .where(User.is_verified == True, User.is_onboarded == True)
+            )
+            registered_count_result = await db_session.execute(registered_query)
+            registered_count = registered_count_result.scalar()
+
+            # Query for the count of users with is_onboarded=False
+            not_onboarded_query = (
+                select(func.count(User.user_id))
+                .where(User.is_onboarded == False)
+            )
+            not_onboarded_count_result = await db_session.execute(not_onboarded_query)
+            not_onboarded_count = not_onboarded_count_result.scalar()
+
+            # Query for the count of active users (is_active=True)
+            active_users_query = (
+                select(func.count(User.user_id))
+                .where(User.is_disabled == False, User.is_onboarded == True)
+            )
+            active_users_count_result = await db_session.execute(active_users_query)
+            active_users_count = active_users_count_result.scalar()
+
+            stats = {
+                "registered_users": registered_count,
+                "not_onboarded_users": not_onboarded_count,
+                "active_users": active_users_count,
+            }
+
+            return (
+                stats
+                if isinstance(stats, DAOResponse)
+                else DAOResponse(success=True, data=stats)
+            )
+
+
         @self.router.get("/admitted/")
         async def admitted_users(
             request: Request,

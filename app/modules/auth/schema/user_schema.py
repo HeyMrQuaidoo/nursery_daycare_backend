@@ -217,6 +217,7 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "employer_name",
                 "occupation_status",
                 "occupation_location",
+                "password"
             ],
         )
 
@@ -392,6 +393,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 values.is_subscribed = values.user_auth_info.is_subscribed
                 values.current_login_time = values.user_auth_info.current_login_time
                 values.last_login_time = values.user_auth_info.last_login_time
+                values.is_onboarded = values.user_auth_info.is_onboarded
                 values.password = Hash.bcrypt(values.user_auth_info.password)
 
             # user_employer_info
@@ -444,12 +446,14 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "is_subscribed_token",
                 "is_disabled",
                 "is_verified",
+                "is_onboarded",
                 "is_subscribed",
                 "current_login_time",
                 "last_login_time",
                 "employer_name",
                 "occupation_status",
                 "occupation_location",
+                "password"
             ],
         )
 
@@ -563,6 +567,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             values.is_subscribed = values.user_auth_info.is_subscribed
             values.current_login_time = values.user_auth_info.current_login_time
             values.last_login_time = values.user_auth_info.last_login_time
+            values.is_onboarded = values.user_auth_info.is_onboarded
 
         # user_employer_info
         if values.user_employer_info:
@@ -608,6 +613,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "verification_token",
                 "is_subscribed_token",
                 "is_disabled",
+                "is_onboarded",
                 "is_verified",
                 "is_subscribed",
                 "current_login_time",
@@ -616,5 +622,6 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "occupation_status",
                 "occupation_location",
                 "answers",
+                "password"
             ],
         )

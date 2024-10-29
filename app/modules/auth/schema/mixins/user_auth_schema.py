@@ -14,8 +14,9 @@ class UserAuthInfo(BaseSchema):
     verification_token: Optional[Annotated[str, constr(max_length=128)]] = None
     is_subscribed_token: Optional[Annotated[str, constr(max_length=128)]] = None
     is_disabled: bool = False
-    is_verified: bool = True
+    is_verified: bool = False
     is_subscribed: bool = True
+    is_onboarded: bool = False
     current_login_time: datetime = datetime.now()
     last_login_time: Optional[datetime] = None
 
@@ -29,6 +30,7 @@ class UserAuthInfo(BaseSchema):
             is_disabled=user.is_disabled,
             is_verified=user.is_verified,
             is_subscribed=user.is_subscribed,
+            is_onboarded=user.is_onboarded,
             current_login_time=user.current_login_time,
             last_login_time=user.last_login_time,
         )
@@ -41,7 +43,8 @@ class UserAuthCreateInfo(BaseSchema):
     verification_token: Optional[Annotated[str, constr(max_length=128)]] = None
     is_subscribed_token: Optional[Annotated[str, constr(max_length=128)]] = None
     is_disabled: bool = False
-    is_verified: bool = True
+    is_verified: bool = False
     is_subscribed: bool = True
+    is_onboarded: bool = False
     current_login_time: datetime = datetime.now()
     last_login_time: Optional[datetime] = None
