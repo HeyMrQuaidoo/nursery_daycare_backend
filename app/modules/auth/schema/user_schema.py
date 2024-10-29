@@ -217,7 +217,7 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "employer_name",
                 "occupation_status",
                 "occupation_location",
-                "password"
+                "password",
             ],
         )
 
@@ -453,7 +453,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "employer_name",
                 "occupation_status",
                 "occupation_location",
-                "password"
+                "password",
             ],
         )
 
@@ -622,6 +622,6 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "occupation_status",
                 "occupation_location",
                 "answers",
-                "password"
+                "password",
             ],
         )

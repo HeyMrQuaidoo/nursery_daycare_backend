@@ -7,7 +7,6 @@ from fastapi import Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-
 # enums
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
 
@@ -30,8 +29,6 @@ from app.modules.forms.schema.questionnaire_schema import (
 # core
 from app.core.response import DAOResponse
 from app.core.errors import CustomException, RecordNotFoundException, IntegrityError
-
-
 
 
 class QuestionnaireRouter(BaseCRUDRouter):
@@ -173,18 +170,19 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 raise CustomException(e)
 
         @self.router.get("/responses/")
-        async def get_user_entity_questionnaire_data(request: Request, 
+        async def get_user_entity_questionnaire_data(
+            request: Request,
             limit: int = Query(default=10, ge=1),
             offset: int = Query(default=0, ge=0),
-            db_session: AsyncSession = Depends(self.get_db)):
-
+            db_session: AsyncSession = Depends(self.get_db),
+        ):
             # Query entity questionnaires where entity_type is 'user'
             stmt = (
                 select(EntityQuestionnaire)
                 .options(
                     selectinload(EntityQuestionnaire.question),
                     selectinload(EntityQuestionnaire.answer),
-                    selectinload(EntityQuestionnaire.questionnaire)
+                    selectinload(EntityQuestionnaire.questionnaire),
                 )
                 .where(EntityQuestionnaire.entity_type == EntityTypeEnum.user)
             )
@@ -204,13 +202,17 @@ class QuestionnaireRouter(BaseCRUDRouter):
 
                 # Get questionnaire details
                 questionnaire_id = str(entity_q.questionnaire_id)
-                
+
                 # Check if this questionnaire has already been added for this user
                 questionnaire_entry = next(
-                    (q for q in users_data[user_id]["questionnaires"] if q["questionnaire_id"] == questionnaire_id),
-                    None
+                    (
+                        q
+                        for q in users_data[user_id]["questionnaires"]
+                        if q["questionnaire_id"] == questionnaire_id
+                    ),
+                    None,
                 )
-                
+
                 if not questionnaire_entry:
                     # Add a new questionnaire entry for this user
                     questionnaire_entry = {
@@ -259,22 +261,27 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 if isinstance(result, DAOResponse)
                 else DAOResponse(success=True, data=result)
             )
-        
+
         @self.router.get("/responses/{user_id}")
-        async def get_user_entity_questionnaire_data(user_id: Union[str | UUID], request: Request, 
+        async def get_user_entity_questionnaire_data_by_id(
+            user_id: Union[str | UUID],
+            request: Request,
             limit: int = Query(default=10, ge=1),
             offset: int = Query(default=0, ge=0),
-            db_session: AsyncSession = Depends(self.get_db)):
-
+            db_session: AsyncSession = Depends(self.get_db),
+        ):
             # Query entity questionnaires where entity_type is 'user'
             stmt = (
                 select(EntityQuestionnaire)
                 .options(
                     selectinload(EntityQuestionnaire.question),
                     selectinload(EntityQuestionnaire.answer),
-                    selectinload(EntityQuestionnaire.questionnaire)
+                    selectinload(EntityQuestionnaire.questionnaire),
                 )
-                .where(EntityQuestionnaire.entity_type == EntityTypeEnum.user, EntityQuestionnaire.entity_id == user_id)
+                .where(
+                    EntityQuestionnaire.entity_type == EntityTypeEnum.user,
+                    EntityQuestionnaire.entity_id == user_id,
+                )
             )
 
             result = await db_session.execute(stmt)
@@ -292,13 +299,17 @@ class QuestionnaireRouter(BaseCRUDRouter):
 
                 # Get questionnaire details
                 questionnaire_id = str(entity_q.questionnaire_id)
-                
+
                 # Check if this questionnaire has already been added for this user
                 questionnaire_entry = next(
-                    (q for q in users_data[user_id]["questionnaires"] if q["questionnaire_id"] == questionnaire_id),
-                    None
+                    (
+                        q
+                        for q in users_data[user_id]["questionnaires"]
+                        if q["questionnaire_id"] == questionnaire_id
+                    ),
+                    None,
                 )
-                
+
                 if not questionnaire_entry:
                     # Add a new questionnaire entry for this user
                     questionnaire_entry = {

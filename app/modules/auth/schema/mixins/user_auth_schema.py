@@ -1,6 +1,6 @@
+from pydantic import constr
 from datetime import datetime
 from typing import Annotated, Optional
-from pydantic import constr
 
 from app.modules.common.schema.base_schema import BaseSchema
 
