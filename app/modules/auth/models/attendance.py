@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 # models
 from app.modules.common.models.model_base import BaseModel as Base
 
+
 class AttendanceLog(Base):
     __tablename__ = "attendance_logs"
 
@@ -19,8 +20,12 @@ class AttendanceLog(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.user_id"), primary_key=True
     )
-    check_in_time: Mapped[Optional[DateTime]] = mapped_column(DateTime(timezone=True), nullable=False)
-    check_out_time: Mapped[Optional[DateTime]] = mapped_column(DateTime(timezone=True), nullable=False)
+    check_in_time: Mapped[Optional[DateTime]] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    check_out_time: Mapped[Optional[DateTime]] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
     date_stamp: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), default=func.now()
     )

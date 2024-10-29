@@ -7,16 +7,23 @@ from typing import Optional, Union
 from app.modules.auth.models.attendance import AttendanceLog as AttendanceLogModel
 
 # schema
-from app.modules.auth.schema.mixins.attendance_log_mixin import AttendanceLogBase, AttendanceLogInfoMixin
+from app.modules.auth.schema.mixins.attendance_log_mixin import (
+    AttendanceLogBase,
+    AttendanceLogInfoMixin,
+)
 from app.modules.auth.schema.mixins.user_mixin import UserBase, UserBaseMixin
+
 
 class AttendanceLogCreateSchema(AttendanceLogBase, AttendanceLogInfoMixin):
     model_config = ConfigDict(
         from_attributes=True,
         arbitrary_types_allowed=True,
         json_encoders={datetime: lambda v: v.isoformat() if v else None},
-        json_schema_extra={"example": AttendanceLogInfoMixin._attendance_log_create_json},
+        json_schema_extra={
+            "example": AttendanceLogInfoMixin._attendance_log_create_json
+        },
     )
+
 
 class AttendanceLogUpdateSchema(AttendanceLogBase):
     user_id: Optional[Union[UUID | UserBase]] = None
@@ -26,16 +33,20 @@ class AttendanceLogUpdateSchema(AttendanceLogBase):
         from_attributes=True,
         arbitrary_types_allowed=True,
         json_encoders={datetime: lambda v: v.isoformat() if v else None},
-        json_schema_extra={"example": AttendanceLogInfoMixin._attendance_log_update_json},
+        json_schema_extra={
+            "example": AttendanceLogInfoMixin._attendance_log_update_json
+        },
     )
+
 
 class AttendanceLogResponse(AttendanceLogBase, UserBaseMixin):
     user_id: Optional[Union[UUID | UserBase]] = None
     attendance_id: UUID
 
     @classmethod
-    def model_validate(cls, attendance_log: AttendanceLogModel) -> "AttendanceLogResponse":
-
+    def model_validate(
+        cls, attendance_log: AttendanceLogModel
+    ) -> "AttendanceLogResponse":
         print(attendance_log)
         return cls(
             attendance_id=attendance_log.attendance_id,

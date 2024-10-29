@@ -13,19 +13,18 @@ from app.modules.auth.schema.attendance_schema import (
     AttendanceLogUpdateSchema,
 )
 
-class AttendanceLogRouter(BaseCRUDRouter):
-    def __init__(self, prefix: str = "/attendance_logs", tags: List[str] = ["Attendance Logs"]):
-        self.dao: AttendanceLogDAO = AttendanceLogDAO(excludes=[])
 
+class AttendanceLogRouter(BaseCRUDRouter):
+    def __init__(
+        self, prefix: str = "/attendance_logs", tags: List[str] = ["Attendance Logs"]
+    ):
+        self.dao: AttendanceLogDAO = AttendanceLogDAO(excludes=[])
 
         AttendanceLogSchema["create_schema"] = AttendanceLogCreateSchema
         AttendanceLogSchema["update_schema"] = AttendanceLogUpdateSchema
 
         super().__init__(
-            dao=self.dao,
-            schemas=AttendanceLogSchema,
-            prefix=prefix,
-            tags=tags
+            dao=self.dao, schemas=AttendanceLogSchema, prefix=prefix, tags=tags
         )
         self.register_routes()
 

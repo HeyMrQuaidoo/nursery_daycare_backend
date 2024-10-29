@@ -18,7 +18,7 @@ from app.modules.address.dao.address_dao import AddressDAO
 from app.modules.auth.models.user import User
 
 # schemas
-from app.modules.auth.schema.user_schema import UserCreateSchema, UserResponse
+from app.modules.auth.schema.user_schema import UserCreateSchema
 
 # core
 from app.core.response import DAOResponse

@@ -41,6 +41,4 @@ def configure_routes(app: FastAPI):
     app.include_router(AnswerRouter(prefix="/answers", tags=["Answers"]).router)
 
     # Create an instance of AttendanceRouter
-    app.include_router(
-        AttendanceLogRouter().router
-    )
+    app.include_router(AttendanceLogRouter().router)
