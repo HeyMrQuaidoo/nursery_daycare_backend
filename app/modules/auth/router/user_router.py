@@ -35,7 +35,7 @@ class UserRouter(BaseCRUDRouter):
         ):
             try:
                 admitted_users = await self.dao.query(
-                    db_session, filters={"verified": True}
+                    db_session, filters={"is_verified": True}
                 )
                 if not admitted_users:
                     raise RecordNotFoundException(model=self.model_schema.__name__)
@@ -44,7 +44,7 @@ class UserRouter(BaseCRUDRouter):
                     limit=limit,
                     offset=offset,
                     db_session=db_session,
-                    filter_condition={"published": True},
+                    filter_condition={"is_verified": True},
                 )
 
                 if isinstance(admitted_users, DAOResponse):
