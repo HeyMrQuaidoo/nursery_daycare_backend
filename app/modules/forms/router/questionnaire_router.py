@@ -1,5 +1,4 @@
 from uuid import UUID
-from sqlalchemy import select
 from typing import List, Union
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
@@ -53,7 +52,6 @@ class QuestionnaireRouter(BaseCRUDRouter):
             db_session: AsyncSession = Depends(self.get_db),
         ):
             try:
-                print("HERE")
                 questionnaires = await self.dao.query(
                     db_session, filters={"published": True}
                 )
