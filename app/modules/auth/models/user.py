@@ -187,6 +187,10 @@ class User(Base):
         collection_class=BaseModelCollection,
     )
 
+    attendance_logs: Mapped[List["AttendanceLog"]] = relationship(
+        "AttendanceLog", back_populates="user"
+    )
+
     def update_last_login_time(self):
         # Store the current login time in the last_login_time field
         self.last_login_time = self.current_login_time

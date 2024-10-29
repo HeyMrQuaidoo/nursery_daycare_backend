@@ -7,6 +7,7 @@ from app.modules.auth.router.permission_router import PermissionRouter
 from app.modules.forms.router.answer_router import AnswerRouter
 from app.modules.forms.router.question_router import QuestionRouter
 from app.modules.forms.router.questionnaire_router import QuestionnaireRouter
+from app.modules.auth.router.attendance_log_router import AttendanceLogRouter
 
 router = APIRouter()
 
@@ -38,3 +39,8 @@ def configure_routes(app: FastAPI):
 
     # # Create an instance of AnswerRouter
     app.include_router(AnswerRouter(prefix="/answers", tags=["Answers"]).router)
+
+    # Create an instance of AttendanceRouter
+    app.include_router(
+        AttendanceLogRouter().router
+    )

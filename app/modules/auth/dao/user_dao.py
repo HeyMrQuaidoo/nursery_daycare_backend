@@ -93,10 +93,10 @@ class UserDAO(BaseDAO[User]):
             )
 
         except ValidationError as e:
-            return DAOResponse(success=False, data=str(e))
+            raise e
         except Exception as e:
             await db_session.rollback()
-            return DAOResponse[UserResponse](success=False, error=f"Fatal {str(e)}")
+            raise e
 
     async def user_exists(self, db_session: AsyncSession, email: str):
         return await self.query(

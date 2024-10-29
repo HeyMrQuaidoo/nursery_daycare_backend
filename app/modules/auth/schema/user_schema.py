@@ -38,12 +38,14 @@ from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
 
 # core
 from app.core.security import Hash
+from app.modules.auth.schema.mixins.attendance_log_mixin import AttendanceLogBase
 
 
 class UserSchema(UserBase):
     roles: Optional[List[RoleBase]] = []
     address: Optional[List[AddressBase]] = []
     accounts: Optional[List[AccountBase]] = []
+    attendance_logs: Optional[List[AttendanceLogBase]] = []
 
 
 class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
@@ -192,6 +194,7 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
             answers=user.answers,
+            attendance_logs=user.attendance_logs,
             questionnaires=cls.get_entity_questionnaire_info(
                 user.entity_questionnaires
             ),
@@ -423,6 +426,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             user_emergency_info=UserEmergencyInfo.get_user_emergency_info(user),
             user_employer_info=UserEmployerInfo.get_user_employer_info(user),
             created_at=user.created_at,
+            attendance_logs=user.attendance_logs,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
             questionnaires=cls.get_entity_questionnaire_info(
@@ -594,6 +598,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             user_emergency_info=UserEmergencyInfo.get_user_emergency_info(user),
             user_employer_info=UserEmployerInfo.get_user_employer_info(user),
             created_at=user.created_at,
+            attendance_logs=user.attendance_logs,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
             questionnaires=cls.get_entity_questionnaire_info(

@@ -1,5 +1,6 @@
 # models
 from app.modules.auth.models.user import User
+from app.modules.auth.models.attendance import AttendanceLog
 from app.modules.auth.models.role import Role
 from app.modules.billing.models.payment_type import PaymentType
 from app.modules.billing.models.transaction import Transaction
@@ -52,6 +53,11 @@ MediaSchema = CustomBaseModel.generate_schemas_for_sqlalchemy_model(
 PermissionSchema = CustomBaseModel.generate_schemas_for_sqlalchemy_model(
     Permissions, excludes=["permission_id"]
 )
+
+AttendanceLogSchema = CustomBaseModel.generate_schemas_for_sqlalchemy_model(
+    AttendanceLog, excludes=["attendance_id"]
+)
+
 
 UserSchema = CustomBaseModel.generate_schemas_for_sqlalchemy_model(
     User, excludes=["user_id"]
