@@ -122,9 +122,20 @@ def increment_number_of_responses(mapper, connection, target):
                 )
 
                 if questionnaire:
-                    questionnaire.number_of_responses = (
-                        questionnaire.number_of_responses + 1
+                    # questionnaire.number_of_responses = (
+                    #     questionnaire.number_of_responses + 1
+                    # )
+                    # Count the distinct `entity_id`s with `entity_type` = "user" for this questionnaire
+                    distinct_user_count = (
+                        session.query(EntityQuestionnaire.entity_id)
+                        .filter(
+                            EntityQuestionnaire.entity_type == EntityTypeEnum.user,
+                            EntityQuestionnaire.questionnaire_id == target.questionnaire_id
+                        )
+                        .distinct()
+                        .count()
                     )
+                    questionnaire.number_of_responses = distinct_user_count
                     session.add(questionnaire)
                     session.commit()  # Save the updated number_of_responses
                 session.close()
