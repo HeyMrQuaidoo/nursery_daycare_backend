@@ -188,7 +188,7 @@ class User(Base):
     )
 
     attendance_logs: Mapped[List["AttendanceLog"]] = relationship(
-        "AttendanceLog", back_populates="user"
+        "AttendanceLog", back_populates="user", lazy="selectin"
     )
 
     def update_last_login_time(self):
