@@ -82,6 +82,7 @@ class UserRouter(BaseCRUDRouter):
                 )
                 if not admitted_users:
                     raise RecordNotFoundException(model=self.model_schema.__name__)
+                
                 meta = await self.dao.build_pagination_meta(
                     request=request,
                     limit=limit,
@@ -104,8 +105,8 @@ class UserRouter(BaseCRUDRouter):
                     else DAOResponse(success=True, data=admitted_users, meta=meta)
                 )
             except RecordNotFoundException as e:
-                raise e
+                return DAOResponse(success=True, data=[])
             except IntegrityError as e:
-                raise e
+                raise CustomException(e)
             except Exception as e:
                 raise CustomException(e)

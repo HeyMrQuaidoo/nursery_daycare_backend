@@ -24,6 +24,7 @@ from app.modules.common.schema.schemas import UserSchema
 from app.modules.auth.schema.auth_schema import Login, ResetPassword
 
 RESET_LINK = "https://aleva-care.netlify.app/account-recovery?token={}"
+ONBOARDING_LINK = "https://aleva-care.netlify.app/onboarding"
 UNSUBSCRIBE_LINK = "https://nursery-daycare-backend.onrender.com/auth/mail-unsubscribe?email={}&token={}"
 
 
@@ -139,6 +140,19 @@ class AuthRouter(BaseCRUDRouter):
                 )
 
                 if response:
+                    email_service = EmailService()
+
+                    asyncio.create_task(
+                        email_service.send_welcome_email(
+                            current_user.email,
+                            current_user.first_name + " " + current_user.last_name,
+                            ONBOARDING_LINK,
+                            UNSUBSCRIBE_LINK.format(
+                                current_user.email, current_user.is_subscribed_token
+                            ),
+                        )
+                    )
+                        
                     return RedirectResponse(url="hhttps://aleva-care.netlify.app/login")
                 else:
                     raise HTTPException(
