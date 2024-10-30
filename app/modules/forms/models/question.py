@@ -26,11 +26,12 @@ class Question(Base):
     question_type: Mapped["QuestionType"] = mapped_column(Enum(QuestionType))
 
     # entity_questionnaires
-    entity_questionnaires: Mapped["EntityQuestionnaire"] = relationship(
+    entity_questionnaires: Mapped[List["EntityQuestionnaire"]] = relationship(
         "EntityQuestionnaire",
         back_populates="question",
         cascade="all, delete-orphan",
         lazy="selectin",
+        uselist=True
     )
 
     # questionnaire

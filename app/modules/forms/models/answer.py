@@ -26,7 +26,7 @@ class Answer(Base):
 
     # entity_questionnaires
     entity_questionnaires = relationship(
-        "EntityQuestionnaire", back_populates="answer", cascade="all, delete-orphan"
+        "EntityQuestionnaire", back_populates="answer", cascade="all, delete-orphan", lazy="selectin"
     )
 
     # question

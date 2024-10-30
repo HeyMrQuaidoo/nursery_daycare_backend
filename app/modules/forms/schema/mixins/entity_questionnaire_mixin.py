@@ -3,7 +3,10 @@ from collections import defaultdict
 from typing import Any, List, Optional, Union
 
 # schema
+from app.modules.forms.schema.mixins.answer_mixin import AnswerBase
+from app.modules.forms.schema.mixins.question_mixin import QuestionBase
 from app.modules.common.schema.base_schema import BaseSchema, BaseFaker
+from app.modules.forms.schema.mixins.questionnaire_mixin import QuestionnaireBase
 
 # enum
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
@@ -38,18 +41,16 @@ class EntityQuestionnaireMixin:
     @classmethod
     def get_entity_questionnaire_info(
         cls,
-        entity_questionnaire: Union[
-            EntityQuestionnaireModel,
-            Union[List[EntityQuestionnaireModel] | EntityQuestionnaireModel | Any],
-        ],
+        entity_questionnaire: 
+            Union[List["EntityQuestionnaireBase"] | "EntityQuestionnaireBase" | Any],
     ) -> List[dict]:
         print("HERE1")
 
         if not entity_questionnaire:
             return None
-        print("HERE2")
+        print(f"HERE2 {entity_questionnaire}")
         if not isinstance(entity_questionnaire, list):
-            entity_questionnaire = [entity_questionnaire]
+            entity_questionnaire = [EntityQuestionnaireBase.model_validate(entity_questionnaire)]
 
         # nested dictionary structure
         data = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -70,9 +71,14 @@ class EntityQuestionnaireMixin:
         for questionnaire_id, questions in data.items():
             # Fetch questionnaire details
             print(f"HERE5 {entity_questionnaire}")
-            for eq in entity_questionnaire:
-                print(eq.questionnaire)
-            print("FHA")
+            try:
+                for eq in entity_questionnaire:
+                    print(eq.questionnaire)
+            except Exception as e:
+                print(f"Error: {e}")
+
+                for eq in entity_questionnaire:
+                    print(eq.questionnaire)
             questionnaire = next(
                 (
                     eq.questionnaire
@@ -138,14 +144,32 @@ class EntityQuestionnaireMixin:
 
 
 class EntityQuestionnaireBase(BaseSchema, EntityQuestionnaireMixin):
-    # entity_questionnaire_id: Optional[UUID] = None
+    entity_questionnaire_id: Optional[UUID] = None
     entity_id: UUID
     entity_type: EntityTypeEnum
     questionnaire_id: Optional[UUID] = None
     question_id: Optional[UUID] = None
     answer_id: Optional[UUID] = None
     mark_as_read: bool = False
-
+    questionnaire: Optional[QuestionnaireBase] = None
+    question: Optional[QuestionBase] = None
+    asnwer: Optional[AnswerBase] = None
+    
+    @classmethod
+    def model_validate(cls, entity_questionnaire: Union[EntityQuestionnaireModel]):
+        print("in model validate")
+        return cls(
+            entity_questionnaire_id=entity_questionnaire.entity_questionnaire_id,
+            entity_id=entity_questionnaire.entity_id,
+            entity_type=entity_questionnaire.entity_type,
+            questionnaire_id=entity_questionnaire.questionnaire_id,
+            question_id=entity_questionnaire.question_id,
+            answer_id=entity_questionnaire.answer_id,
+            mark_as_read=entity_questionnaire.mark_as_read,
+            questionnaire=QuestionnaireBase.model_validate(entity_questionnaire.questionnaire) if entity_questionnaire.questionnaire else None,
+            question=QuestionBase.model_validate(entity_questionnaire.question) if entity_questionnaire.question else None,
+            answer=AnswerBase.model_validate(entity_questionnaire.answer) if entity_questionnaire.answer else None,
+        ).model_dump()
 
 class EntityQuestionnaire(EntityQuestionnaireBase):
     entity_questionnaire_id: Optional[UUID] = None

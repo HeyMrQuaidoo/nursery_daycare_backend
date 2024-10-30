@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import Optional
+from typing import Optional, Union
 from pydantic import ConfigDict
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
 from app.modules.forms.models.entity_questionnaire import (
@@ -28,7 +28,8 @@ class EntityQuestionnaireResponse(EntityQuestionnaireBase, EntityQuestionnaireMi
     )
 
     @classmethod
-    def model_validate(cls, entity_questionnaire: EntityQuestionnaireModel):
+    def model_validate(cls, entity_questionnaire: Union[EntityQuestionnaireBase]):
+        print(f"TYPE: {type(entity_questionnaire)}")
         return cls.get_entity_questionnaire_info(entity_questionnaire)
 
 
