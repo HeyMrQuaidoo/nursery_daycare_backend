@@ -28,6 +28,7 @@ from app.modules.forms.schema.questionnaire_schema import (
 # core
 from app.core.response import DAOResponse
 from app.core.errors import CustomException, RecordNotFoundException, IntegrityError
+from app.modules.auth.schema.mixins.user_mixin import UserBaseMixin
 
 
 class QuestionnaireRouter(BaseCRUDRouter):
@@ -196,7 +197,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
 
                 # Initialize user entry if it doesn't exist
                 if user_id not in users_data:
-                    users_data[user_id] = {"user_id": user_id, "questionnaires": []}
+                    users_data[user_id] = {"user_id": UserBaseMixin.get_user_info(entity_q.user), "questionnaires": []}
 
                 # Get questionnaire details
                 questionnaire_id = str(entity_q.questionnaire_id)
