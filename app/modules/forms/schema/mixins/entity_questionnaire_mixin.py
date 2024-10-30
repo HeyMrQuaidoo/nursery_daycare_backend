@@ -41,8 +41,9 @@ class EntityQuestionnaireMixin:
     @classmethod
     def get_entity_questionnaire_info(
         cls,
-        entity_questionnaire: 
-            Union[List["EntityQuestionnaireBase"] | "EntityQuestionnaireBase" | Any],
+        entity_questionnaire: Union[
+            List["EntityQuestionnaireBase"] | "EntityQuestionnaireBase" | Any
+        ],
     ) -> List[dict]:
         print("HERE1")
 
@@ -50,7 +51,9 @@ class EntityQuestionnaireMixin:
             return None
         print(f"HERE2 {entity_questionnaire}")
         if not isinstance(entity_questionnaire, list):
-            entity_questionnaire = [EntityQuestionnaireBase.model_validate(entity_questionnaire)]
+            entity_questionnaire = [
+                EntityQuestionnaireBase.model_validate(entity_questionnaire)
+            ]
 
         # nested dictionary structure
         data = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -154,7 +157,7 @@ class EntityQuestionnaireBase(BaseSchema, EntityQuestionnaireMixin):
     questionnaire: Optional[QuestionnaireBase] = None
     question: Optional[QuestionBase] = None
     asnwer: Optional[AnswerBase] = None
-    
+
     @classmethod
     def model_validate(cls, entity_questionnaire: Union[EntityQuestionnaireModel]):
         print("in model validate")
@@ -166,10 +169,19 @@ class EntityQuestionnaireBase(BaseSchema, EntityQuestionnaireMixin):
             question_id=entity_questionnaire.question_id,
             answer_id=entity_questionnaire.answer_id,
             mark_as_read=entity_questionnaire.mark_as_read,
-            questionnaire=QuestionnaireBase.model_validate(entity_questionnaire.questionnaire) if entity_questionnaire.questionnaire else None,
-            question=QuestionBase.model_validate(entity_questionnaire.question) if entity_questionnaire.question else None,
-            answer=AnswerBase.model_validate(entity_questionnaire.answer) if entity_questionnaire.answer else None,
+            questionnaire=QuestionnaireBase.model_validate(
+                entity_questionnaire.questionnaire
+            )
+            if entity_questionnaire.questionnaire
+            else None,
+            question=QuestionBase.model_validate(entity_questionnaire.question)
+            if entity_questionnaire.question
+            else None,
+            answer=AnswerBase.model_validate(entity_questionnaire.answer)
+            if entity_questionnaire.answer
+            else None,
         ).model_dump()
+
 
 class EntityQuestionnaire(EntityQuestionnaireBase):
     entity_questionnaire_id: Optional[UUID] = None

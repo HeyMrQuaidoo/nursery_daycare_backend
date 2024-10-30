@@ -31,7 +31,7 @@ class Question(Base):
         back_populates="question",
         cascade="all, delete-orphan",
         lazy="selectin",
-        uselist=True
+        uselist=True,
     )
 
     # questionnaire

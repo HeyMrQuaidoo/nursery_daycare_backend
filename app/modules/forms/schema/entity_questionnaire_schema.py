@@ -2,9 +2,6 @@ from uuid import UUID
 from typing import Optional, Union
 from pydantic import ConfigDict
 from app.modules.associations.enums.entity_type_enums import EntityTypeEnum
-from app.modules.forms.models.entity_questionnaire import (
-    EntityQuestionnaire as EntityQuestionnaireModel,
-)
 from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
     EntityQuestionnaireBase,
     EntityQuestionnaireMixin,

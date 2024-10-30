@@ -197,7 +197,10 @@ class QuestionnaireRouter(BaseCRUDRouter):
 
                 # Initialize user entry if it doesn't exist
                 if user_id not in users_data:
-                    users_data[user_id] = {"user_id": UserBaseMixin.get_user_info(entity_q.user), "questionnaires": []}
+                    users_data[user_id] = {
+                        "user_id": UserBaseMixin.get_user_info(entity_q.user),
+                        "questionnaires": [],
+                    }
 
                 # Get questionnaire details
                 questionnaire_id = str(entity_q.questionnaire_id)
@@ -224,7 +227,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                         "updated_at": str(entity_q.questionnaire.updated_at),
                         "number_of_responses": entity_q.questionnaire.number_of_responses,
                         "questionnaire_id": questionnaire_id,
-                        "read": True  # Initially assume all answers are read
+                        "read": True,  # Initially assume all answers are read
                     }
                     users_data[user_id]["questionnaires"].append(questionnaire_entry)
 
@@ -299,7 +302,10 @@ class QuestionnaireRouter(BaseCRUDRouter):
 
                 # Initialize user entry if it doesn't exist
                 if user_id not in users_data:
-                    users_data[user_id] = {"user_id":  UserBaseMixin.get_user_info(entity_q.user),"questionnaires": []}
+                    users_data[user_id] = {
+                        "user_id": UserBaseMixin.get_user_info(entity_q.user),
+                        "questionnaires": [],
+                    }
 
                 # Get questionnaire details
                 questionnaire_id = str(entity_q.questionnaire_id)
@@ -326,7 +332,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                         "updated_at": str(entity_q.questionnaire.updated_at),
                         "number_of_responses": entity_q.questionnaire.number_of_responses,
                         "questionnaire_id": questionnaire_id,
-                        "read": True  # Initially assume all answers are read
+                        "read": True,  # Initially assume all answers are read
                     }
                     users_data[user_id]["questionnaires"].append(questionnaire_entry)
 

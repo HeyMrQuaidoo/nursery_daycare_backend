@@ -152,7 +152,7 @@ class AuthRouter(BaseCRUDRouter):
                             ),
                         )
                     )
-                        
+
                     return RedirectResponse(url="hhttps://aleva-care.netlify.app/login")
                 else:
                     raise HTTPException(

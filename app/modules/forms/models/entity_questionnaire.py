@@ -130,7 +130,8 @@ def increment_number_of_responses(mapper, connection, target):
                         session.query(EntityQuestionnaire.entity_id)
                         .filter(
                             EntityQuestionnaire.entity_type == EntityTypeEnum.user,
-                            EntityQuestionnaire.questionnaire_id == target.questionnaire_id
+                            EntityQuestionnaire.questionnaire_id
+                            == target.questionnaire_id,
                         )
                         .distinct()
                         .count()
