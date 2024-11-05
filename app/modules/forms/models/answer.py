@@ -43,6 +43,20 @@ class Answer(Base):
         collection_class=BaseModelCollection,
     )
 
+    # questionnaire
+    questionnaire = relationship(
+        "Questionnaire",
+        secondary="entity_questionnaires",
+        primaryjoin="and_(EntityQuestionnaire.answer_id==Answer.answer_id, EntityQuestionnaire.question_id==Answer.question_id, EntityQuestionnaire.entity_type=='questions')",
+        secondaryjoin="and_(EntityQuestionnaire.questionnaire_id==Questionnaire.questionnaire_id)",
+        lazy="subquery",
+        cascade="all, delete",
+        viewonly=True,
+        single_parent=True,
+        uselist=False,
+        # collection_class=BaseModelCollection,
+    )
+
 
 # register model
 Base.setup_model_dynamic_listener("answers", Answer)

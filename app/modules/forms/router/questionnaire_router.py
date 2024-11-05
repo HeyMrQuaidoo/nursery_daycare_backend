@@ -56,8 +56,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 questionnaires = await self.dao.query(
                     db_session, filters={"published": True}
                 )
-                if not questionnaires:
-                    raise RecordNotFoundException(model=self.model_schema.__name__)
+
                 meta = await self.dao.build_pagination_meta(
                     request=request,
                     limit=limit,
@@ -97,8 +96,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 questionnaires = await self.dao.query(
                     db_session, filters={"published": False}
                 )
-                if not questionnaires:
-                    raise RecordNotFoundException(model=self.model_schema.__name__)
+
                 meta = await self.dao.build_pagination_meta(
                     request=request,
                     limit=limit,
@@ -138,8 +136,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 questionnaires = await self.dao.query(
                     db_session, filters={"publish_for_registration": True}
                 )
-                if not questionnaires:
-                    raise RecordNotFoundException(model=self.model_schema.__name__)
+
                 meta = await self.dao.build_pagination_meta(
                     request=request,
                     limit=limit,
@@ -244,7 +241,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 if entity_q.answer_id:
                     answer_data = {
                         "answer_id": str(entity_q.answer_id),
-                        "questionnaire_id": None,  # As per provided JSON, it is null
+                        "questionnaire_id": questionnaire_id,
                         "question_id": str(entity_q.question_id),
                         "answer_type": entity_q.answer.answer_type.value,
                         "content": entity_q.answer.content,
@@ -349,7 +346,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 if entity_q.answer_id:
                     answer_data = {
                         "answer_id": str(entity_q.answer_id),
-                        "questionnaire_id": None,  # As per provided JSON, it is null
+                        "questionnaire_id": questionnaire_id,
                         "question_id": str(entity_q.question_id),
                         "answer_type": entity_q.answer.answer_type.value,
                         "content": entity_q.answer.content,

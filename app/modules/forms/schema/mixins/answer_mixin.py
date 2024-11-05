@@ -37,21 +37,28 @@ class AnswerMixin:
                 cls(
                     answer_id=a.answer_id,
                     question_id=a.question_id,
+                    questionnaire_id=a.questionnaire.questionnaire_id
+                    if a.questionnaire
+                    else None,
                     answer_type=a.answer_type,
                     content=a.content,
                 ).model_dump(exclude=["mark_as_read"])
                 for a in answer
             ]
 
+        print(answer.questionnaire)
         return cls(
             answer_id=answer.answer_id,
             question_id=answer.question_id,
+            questionnaire_id=answer.questionnaire.questionnaire_id
+            if answer.questionnaire
+            else None,
             answer_type=answer.answer_type,
             content=answer.content,
         ).model_dump(exclude=["mark_as_read"])
 
 
-class AnswerBase(BaseSchema):
+class AnswerBase(BaseSchema, AnswerMixin):
     answer_id: Optional[UUID] = None
     questionnaire_id: Optional[UUID] = None
     question_id: Optional[UUID] = None
