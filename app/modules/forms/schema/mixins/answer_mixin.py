@@ -9,7 +9,7 @@ from app.modules.forms.enums.questionnaire_enums import AnswerType
 
 # models
 from app.modules.forms.models.answer import Answer as AnswerModel
-
+from app.modules.forms.models.question import Question as QuestionModel
 
 class AnswerMixin:
     _answer_type = BaseFaker.random_element([e.value for e in AnswerType])
@@ -37,8 +37,8 @@ class AnswerMixin:
                 cls(
                     answer_id=a.answer_id,
                     question_id=a.question_id,
-                    questionnaire_id=a.questionnaire.questionnaire_id
-                    if a.questionnaire
+                    questionnaire_id=a.question.questionnaire_id
+                    if isinstance(a.question, QuestionModel)
                     else None,
                     answer_type=a.answer_type,
                     content=a.content,
@@ -46,12 +46,11 @@ class AnswerMixin:
                 for a in answer
             ]
 
-        print(answer.questionnaire)
         return cls(
             answer_id=answer.answer_id,
             question_id=answer.question_id,
-            questionnaire_id=answer.questionnaire.questionnaire_id
-            if answer.questionnaire
+            questionnaire_id=answer.question.questionnaire_id
+            if isinstance(answer.question, QuestionModel)
             else None,
             answer_type=answer.answer_type,
             content=answer.content,
