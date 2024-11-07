@@ -43,7 +43,7 @@ class Answer(Base):
         cascade="all, delete",
         viewonly=True,
         uselist=False,
-        collection_class=BaseModelCollection
+        collection_class=BaseModelCollection,
     )
 
     # questionnaire

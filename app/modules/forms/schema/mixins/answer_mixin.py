@@ -11,6 +11,7 @@ from app.modules.forms.enums.questionnaire_enums import AnswerType
 from app.modules.forms.models.answer import Answer as AnswerModel
 from app.modules.forms.models.question import Question as QuestionModel
 
+
 class AnswerMixin:
     _answer_type = BaseFaker.random_element([e.value for e in AnswerType])
     _content = BaseFaker.sentence()
@@ -38,7 +39,10 @@ class AnswerMixin:
                     answer_id=a.answer_id,
                     question_id=a.question_id,
                     questionnaire_id=a.question.questionnaire_id
-                    if a.entity_questionnaires and not isinstance(a.entity_questionnaires[0].question, QuestionModel)
+                    if a.entity_questionnaires
+                    and not isinstance(
+                        a.entity_questionnaires[0].question, QuestionModel
+                    )
                     else a.entity_questionnaires[0].question.questionnaire_id,
                     answer_type=a.answer_type,
                     content=a.content,
@@ -50,10 +54,11 @@ class AnswerMixin:
             answer_id=answer.answer_id,
             question_id=answer.question_id,
             questionnaire_id=None
-            if answer.entity_questionnaires and not isinstance(answer.entity_questionnaires[0].question, QuestionModel)
+            if answer.entity_questionnaires
+            and not isinstance(answer.entity_questionnaires[0].question, QuestionModel)
             else answer.entity_questionnaires[0].question.questionnaire_id,
             answer_type=answer.answer_type,
-            content=answer.content
+            content=answer.content,
         ).model_dump(exclude=["mark_as_read"])
 
 

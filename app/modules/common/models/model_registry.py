@@ -166,9 +166,9 @@ class RelationshipConfigRegistry:
                 model_class.__tablename__.lower() in enum_class
                 or model_class.__name__.lower() in enum_class
             ):
-                entity_params_attr[
-                    "entity_id"
-                ] = model_class.__table__.primary_key.columns[0].name
+                entity_params_attr["entity_id"] = (
+                    model_class.__table__.primary_key.columns[0].name
+                )
                 entity_params_attr["entity_type"] = (
                     model_class.__tablename__.lower()
                     if model_class.__tablename__.lower() in enum_class
