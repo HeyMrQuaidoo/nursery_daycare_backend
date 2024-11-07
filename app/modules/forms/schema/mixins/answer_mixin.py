@@ -38,8 +38,8 @@ class AnswerMixin:
                     answer_id=a.answer_id,
                     question_id=a.question_id,
                     questionnaire_id=a.question.questionnaire_id
-                    if isinstance(a.question, QuestionModel)
-                    else None,
+                    if a.entity_questionnaires and not isinstance(a.entity_questionnaires[0].question, QuestionModel)
+                    else a.entity_questionnaires[0].question.questionnaire_id,
                     answer_type=a.answer_type,
                     content=a.content,
                 ).model_dump(exclude=["mark_as_read"])
@@ -49,11 +49,11 @@ class AnswerMixin:
         return cls(
             answer_id=answer.answer_id,
             question_id=answer.question_id,
-            questionnaire_id=answer.question.questionnaire_id
-            if isinstance(answer.question, QuestionModel)
-            else None,
+            questionnaire_id=None
+            if answer.entity_questionnaires and not isinstance(answer.entity_questionnaires[0].question, QuestionModel)
+            else answer.entity_questionnaires[0].question.questionnaire_id,
             answer_type=answer.answer_type,
-            content=answer.content,
+            content=answer.content
         ).model_dump(exclude=["mark_as_read"])
 
 
