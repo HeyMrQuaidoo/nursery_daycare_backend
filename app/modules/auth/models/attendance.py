@@ -24,7 +24,7 @@ class AttendanceLog(Base):
         DateTime(timezone=True), nullable=False
     )
     check_out_time: Mapped[Optional[DateTime]] = mapped_column(
-        DateTime(timezone=True), nullable=False
+        DateTime(timezone=True), nullable=True
     )
     date_stamp: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), default=func.now()

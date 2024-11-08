@@ -1,6 +1,6 @@
 from uuid import UUID
 from datetime import datetime
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 # schema
 from app.modules.auth.schema.mixins.user_mixin import UserBase
@@ -10,7 +10,7 @@ from app.modules.common.schema.base_schema import BaseFaker, BaseSchema
 class AttendanceLogBase(BaseSchema):
     user_id: Optional[Union[UUID | UserBase]] = None
     check_in_time: Optional[datetime] = None
-    check_out_time: Optional[datetime] = None
+    check_out_time: Optional[datetime | Any] = None
     date_stamp: Optional[datetime] = None
 
 
