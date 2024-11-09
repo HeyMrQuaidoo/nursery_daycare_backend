@@ -8,14 +8,16 @@ from app.modules.auth.models.attendance import AttendanceLog as AttendanceLogMod
 
 # schema
 from app.modules.auth.schema.mixins.attendance_log_mixin import (
+    AttendanceLog,
     AttendanceLogBase,
     AttendanceLogInfoMixin,
 )
 from app.modules.auth.schema.mixins.user_mixin import UserBase, UserBaseMixin
 
 
-class AttendanceLogCreateSchema(AttendanceLogBase, AttendanceLogInfoMixin, UserBaseMixin):
+class AttendanceLogCreateSchema(AttendanceLog, AttendanceLogInfoMixin, UserBaseMixin):
     user_id: Optional[Union[UUID | UserBase]] = None
+
     model_config = ConfigDict(
         from_attributes=True,
         arbitrary_types_allowed=True,

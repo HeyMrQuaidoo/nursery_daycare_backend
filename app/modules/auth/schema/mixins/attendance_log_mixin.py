@@ -9,9 +9,13 @@ from app.modules.common.schema.base_schema import BaseFaker, BaseSchema
 
 class AttendanceLogBase(BaseSchema):
     user_id: Optional[Union[UUID | UserBase]] = None
-    check_in_time: Optional[datetime] = None
+    check_in_time: Optional[datetime | Any] = None
     check_out_time: Optional[datetime | Any] = None
     date_stamp: Optional[datetime] = None
+
+
+class AttendanceLog(AttendanceLogBase):
+    attendance_id: Optional[UUID] = None
 
 
 class AttendanceLogInfoMixin:

@@ -37,7 +37,7 @@ class Answer(Base):
         "Question",
         secondary="entity_questionnaires",
         primaryjoin="and_(EntityQuestionnaire.answer_id==Answer.answer_id, EntityQuestionnaire.entity_type=='questions')",
-        secondaryjoin="and_(EntityQuestionnaire.question_id==Answer.question_id)",
+        secondaryjoin="and_(EntityQuestionnaire.question_id==Question.question_id)",
         back_populates="answers",
         lazy="selectin",
         cascade="all, delete",
