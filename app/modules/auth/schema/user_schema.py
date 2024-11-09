@@ -38,14 +38,14 @@ from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
 
 # core
 from app.core.security import Hash
-from app.modules.auth.schema.mixins.attendance_log_mixin import AttendanceLogBase
+from app.modules.auth.schema.mixins.attendance_log_mixin import AttendanceLog
 
 
 class UserSchema(UserBase):
     roles: Optional[List[RoleBase]] = []
     address: Optional[List[AddressBase]] = []
     accounts: Optional[List[AccountBase]] = []
-    attendance_logs: Optional[List[AttendanceLogBase]] = []
+    attendance_logs: Optional[List[AttendanceLog]] = []
 
 
 class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
