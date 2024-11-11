@@ -12,3 +12,7 @@ class UserRoleEnum(enum.Enum):
     user = "user"
     guest = "guest"
     manager = "manager"
+
+class AttendanceLogType(enum.Enum):
+    check_in = "check_in"
+    check_out = "check_out"

@@ -5,6 +5,7 @@ from typing import Any, Optional, Union
 # schema
 from app.modules.auth.schema.mixins.user_mixin import UserBase
 from app.modules.common.schema.base_schema import BaseFaker, BaseSchema
+from app.modules.auth.enums.user_enums import AttendanceLogType
 
 
 class AttendanceLogBase(BaseSchema):
@@ -17,6 +18,12 @@ class AttendanceLogBase(BaseSchema):
 class AttendanceLog(AttendanceLogBase):
     attendance_id: Optional[UUID] = None
 
+
+class GuestAttendance(BaseSchema):
+    email: Optional[str]
+    attendance_type: Optional[AttendanceLogType] = None
+    check_in: Optional[bool] = None
+    check_out: Optional[bool] = None
 
 class AttendanceLogInfoMixin:
     _user_id = BaseFaker.uuid4()

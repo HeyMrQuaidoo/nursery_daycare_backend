@@ -1,7 +1,7 @@
 from uuid import UUID
 from importlib import import_module
 from sqlalchemy.future import select
-from sqlalchemy import and_, func, inspect
+from sqlalchemy import and_, between, func, inspect
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel as PydanticBaseModel
 from sqlalchemy.orm import selectinload, InstrumentedAttribute
@@ -462,7 +462,19 @@ class ReadMixin(BaseMixin):
         options: Optional[List[InstrumentedAttribute]] = None,
         order_by: Optional[List[InstrumentedAttribute]] = None,
     ) -> Union[List[DBModelType], Optional[DBModelType]]:
-        conditions = [getattr(self.model, k) == v for k, v in filters.items()]
+        # conditions = [getattr(self.model, k) == v for k, v in filters.items()]
+        conditions = []
+        for key, value in filters.items():
+            # Check if the filter value is a dictionary with "$gte" and "$lt" keys
+            if isinstance(value, dict) and "$gte" in value and "$lt" in value:
+                # Apply a between condition for this field
+                conditions.append(
+                    between(getattr(self.model, key), value["$gte"], value["$lt"])
+                )
+            else:
+                # Apply a standard equality condition
+                conditions.append(getattr(self.model, key) == value)
+                
         query = select(self.model).filter(and_(*conditions))
 
         if options:
