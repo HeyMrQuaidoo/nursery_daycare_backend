@@ -131,7 +131,7 @@ class AuthRouter(BaseCRUDRouter):
 
             if current_user.is_verified:
                 return RedirectResponse(url="https://aleva.compyler.io/onboarding")
-            
+
             if (
                 not current_user.is_verified
                 and current_user.verification_token == token

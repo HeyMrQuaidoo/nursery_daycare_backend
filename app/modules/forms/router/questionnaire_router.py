@@ -134,7 +134,9 @@ class QuestionnaireRouter(BaseCRUDRouter):
         ):
             try:
                 questionnaires = await self.dao.query(
-                    db_session, filters={"publish_for_registration": True}
+                    db_session,
+                    filters={"publish_for_registration": True},
+                    order_by=["created_at"],
                 )
 
                 meta = await self.dao.build_pagination_meta(

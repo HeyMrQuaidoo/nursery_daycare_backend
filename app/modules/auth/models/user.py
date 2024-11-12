@@ -45,6 +45,7 @@ class User(Base):
     is_disabled: Mapped[bool] = mapped_column(Boolean, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=True)
     is_onboarded: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
     is_subscribed: Mapped[bool] = mapped_column(Boolean, default=True)
     current_login_time: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), default=func.now()

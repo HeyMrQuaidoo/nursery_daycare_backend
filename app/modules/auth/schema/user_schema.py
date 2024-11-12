@@ -163,6 +163,8 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             values.is_disabled = values.user_auth_info.is_disabled
             values.is_verified = values.user_auth_info.is_verified
             values.is_subscribed = values.user_auth_info.is_subscribed
+            values.is_onboarded = values.user_auth_info.is_onboarded
+            values.is_approved = values.user_auth_info.is_approved
             values.current_login_time = values.user_auth_info.current_login_time
             values.last_login_time = values.user_auth_info.last_login_time
 
@@ -299,6 +301,8 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                     "is_disabled": False,
                     "is_verified": True,
                     "is_subscribed": True,
+                    "is_onboarded": False,
+                    "is_approved": False,
                     "is_subscribed_token": str(uuid4()),
                     "current_login_time": "2023-09-15T12:00:00",
                     "last_login_time": "2023-09-10T12:00:00",
@@ -397,6 +401,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 values.current_login_time = values.user_auth_info.current_login_time
                 values.last_login_time = values.user_auth_info.last_login_time
                 values.is_onboarded = values.user_auth_info.is_onboarded
+                values.is_approved = values.user_auth_info.is_approved
                 values.password = Hash.bcrypt(values.user_auth_info.password)
 
             # user_employer_info
@@ -450,6 +455,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "is_subscribed_token",
                 "is_disabled",
                 "is_verified",
+                "is_approved",
                 "is_onboarded",
                 "is_subscribed",
                 "current_login_time",
@@ -619,6 +625,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "is_subscribed_token",
                 "is_disabled",
                 "is_onboarded",
+                "is_approved",
                 "is_verified",
                 "is_subscribed",
                 "current_login_time",

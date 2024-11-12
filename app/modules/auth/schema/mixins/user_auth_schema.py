@@ -17,6 +17,7 @@ class UserAuthInfo(BaseSchema):
     is_verified: bool = False
     is_subscribed: bool = True
     is_onboarded: bool = False
+    is_approved: bool = False
     current_login_time: datetime = datetime.now()
     last_login_time: Optional[datetime] = None
 
@@ -31,6 +32,7 @@ class UserAuthInfo(BaseSchema):
             is_verified=user.is_verified,
             is_subscribed=user.is_subscribed,
             is_onboarded=user.is_onboarded,
+            is_approved=user.is_approved,
             current_login_time=user.current_login_time,
             last_login_time=user.last_login_time,
         )
@@ -46,5 +48,6 @@ class UserAuthCreateInfo(BaseSchema):
     is_verified: bool = False
     is_subscribed: bool = True
     is_onboarded: bool = False
+    is_approved: bool = False
     current_login_time: datetime = datetime.now()
     last_login_time: Optional[datetime] = None

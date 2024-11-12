@@ -67,6 +67,7 @@ class UserHiddenFields(BaseSchema):
     is_disabled: Optional[bool] = Field(None, hidden=True)
     is_verified: Optional[bool] = Field(None, hidden=True)
     is_subscribed: Optional[bool] = Field(None, hidden=True)
+    is_approved: Optional[bool] = Field(None, hidden=True)
     is_onboarded: Optional[bool] = Field(None, hidden=True)
     current_login_time: Optional[datetime] = Field(None, hidden=True)
     last_login_time: Optional[datetime] = Field(None, hidden=True)
