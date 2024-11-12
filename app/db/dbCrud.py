@@ -474,7 +474,7 @@ class ReadMixin(BaseMixin):
             else:
                 # Apply a standard equality condition
                 conditions.append(getattr(self.model, key) == value)
-                
+
         query = select(self.model).filter(and_(*conditions))
 
         if options:

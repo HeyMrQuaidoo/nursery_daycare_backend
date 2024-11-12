@@ -24,7 +24,7 @@ from app.modules.common.schema.schemas import UserSchema
 from app.modules.auth.schema.auth_schema import Login, ResetPassword
 
 RESET_LINK = "https://aleva-care.netlify.app/account-recovery?token={}"
-ONBOARDING_LINK = "https://aleva-care.netlify.app/onboarding"
+ONBOARDING_LINK = "https://aleva.compyler.io/onboarding"
 UNSUBSCRIBE_LINK = "https://nursery-daycare-backend.onrender.com/auth/mail-unsubscribe?email={}&token={}"
 
 
@@ -153,7 +153,7 @@ class AuthRouter(BaseCRUDRouter):
                         )
                     )
 
-                    return RedirectResponse(url="https://aleva-care.netlify.app/login")
+                    return RedirectResponse(url="https://aleva.compyler.io/login")
                 else:
                     raise HTTPException(
                         status_code=400,

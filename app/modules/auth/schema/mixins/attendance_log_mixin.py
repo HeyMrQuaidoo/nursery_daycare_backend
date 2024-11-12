@@ -25,6 +25,7 @@ class GuestAttendance(BaseSchema):
     check_in: Optional[bool] = None
     check_out: Optional[bool] = None
 
+
 class AttendanceLogInfoMixin:
     _user_id = BaseFaker.uuid4()
     _check_in_time = BaseFaker.date_time_this_year()
