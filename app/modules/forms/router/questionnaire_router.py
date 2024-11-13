@@ -318,36 +318,62 @@ class QuestionnaireRouter(BaseCRUDRouter):
                     id=f"{questionnaire_id} for user {user_id}",
                 )
 
-            user_data = {"user_id": str(user_id), "questionnaires": []}
+            users_data = {}
 
             for entity_q in entity_questionnaires:
-                questionnaire_id_str = str(entity_q.questionnaire_id)
+                # Get user_id
+                user_id = str(entity_q.entity_id)
 
-                questionnaire_entry = {
-                    "title": entity_q.questionnaire.title,
-                    "description": entity_q.questionnaire.description,
-                    "questions": [],
-                    "publish_for_registration": entity_q.questionnaire.publish_for_registration,
-                    "published": entity_q.questionnaire.published,
-                    "created_at": str(entity_q.questionnaire.created_at),
-                    "updated_at": str(entity_q.questionnaire.updated_at),
-                    "number_of_responses": entity_q.questionnaire.number_of_responses,
-                    "questionnaire_id": questionnaire_id_str,
-                    "read": True,
-                }
+                # Initialize user entry if it doesn't exist
+                if user_id not in users_data:
+                    users_data[user_id] = {
+                        "user_id": UserBaseMixin.get_user_info(entity_q.user),
+                        "questionnaires": [],
+                    }
 
+                # Get questionnaire details
+                questionnaire_id = str(entity_q.questionnaire_id)
+
+                # Check if this questionnaire has already been added for this user
+                questionnaire_entry = next(
+                    (
+                        q
+                        for q in users_data[user_id]["questionnaires"]
+                        if q["questionnaire_id"] == questionnaire_id
+                    ),
+                    None,
+                )
+
+                if not questionnaire_entry:
+                    # Add a new questionnaire entry for this user
+                    questionnaire_entry = {
+                        "title": entity_q.questionnaire.title,
+                        "description": entity_q.questionnaire.description,
+                        "questions": [],
+                        "publish_for_registration": entity_q.questionnaire.publish_for_registration,
+                        "published": entity_q.questionnaire.published,
+                        "created_at": str(entity_q.questionnaire.created_at),
+                        "updated_at": str(entity_q.questionnaire.updated_at),
+                        "number_of_responses": entity_q.questionnaire.number_of_responses,
+                        "questionnaire_id": questionnaire_id,
+                        "read": True,  # Initially assume all answers are read
+                    }
+                    users_data[user_id]["questionnaires"].append(questionnaire_entry)
+
+                # Prepare question data
                 question_data = {
                     "question_id": str(entity_q.question_id),
-                    "questionnaire_id": questionnaire_id_str,
+                    "questionnaire_id": questionnaire_id,
                     "content": entity_q.question.content,
                     "question_type": entity_q.question.question_type.value,
                     "answers": [],
                 }
 
+                # Prepare answer data if exists
                 if entity_q.answer_id:
                     answer_data = {
                         "answer_id": str(entity_q.answer_id),
-                        "questionnaire_id": questionnaire_id_str,
+                        "questionnaire_id": questionnaire_id,
                         "question_id": str(entity_q.question_id),
                         "answer_type": entity_q.answer.answer_type.value,
                         "content": entity_q.answer.content,
@@ -355,13 +381,15 @@ class QuestionnaireRouter(BaseCRUDRouter):
                     }
                     question_data["answers"].append(answer_data)
 
+                    # Update the read status if any answer is unread
                     if not entity_q.mark_as_read:
                         questionnaire_entry["read"] = False
 
-                questionnaire_entry["questions"].append(question_data)
-                user_data["questionnaires"].append(questionnaire_entry)
+                # Check if question is already added to avoid duplicates
+                if question_data not in questionnaire_entry["questions"]:
+                    questionnaire_entry["questions"].append(question_data)
 
-            return DAOResponse(success=True, data=user_data)
+            return DAOResponse(success=True, data=users_data[str(user_id)])
 
         @self.router.get("/responses/{user_id}")
         async def get_user_entity_questionnaire_data_by_id(
