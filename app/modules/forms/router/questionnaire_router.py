@@ -284,13 +284,13 @@ class QuestionnaireRouter(BaseCRUDRouter):
                     .where(
                         EntityQuestionnaire.questionnaire_id == questionnaire_id,
                         EntityQuestionnaire.entity_id == user_id,
-                        EntityQuestionnaire.entity_type == EntityTypeEnum.user
+                        EntityQuestionnaire.entity_type == EntityTypeEnum.user,
                     )
                     .values(item.model_dump(exclude_none=True))
                 )
                 await db_session.execute(update_stmt)
                 await db_session.commit()
-                
+
             except Exception as e:
                 await db_session.rollback()
                 raise Exception(f"Failed to mark questionnaire as read: {str(e)}")
@@ -315,14 +315,11 @@ class QuestionnaireRouter(BaseCRUDRouter):
             if not entity_questionnaires:
                 raise RecordNotFoundException(
                     model="EntityQuestionnaire",
-                    id=f"{questionnaire_id} for user {user_id}"
+                    id=f"{questionnaire_id} for user {user_id}",
                 )
 
-            user_data = {
-                "user_id": str(user_id),
-                "questionnaires": []
-            }
-            
+            user_data = {"user_id": str(user_id), "questionnaires": []}
+
             for entity_q in entity_questionnaires:
                 questionnaire_id_str = str(entity_q.questionnaire_id)
 
@@ -336,7 +333,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                     "updated_at": str(entity_q.questionnaire.updated_at),
                     "number_of_responses": entity_q.questionnaire.number_of_responses,
                     "questionnaire_id": questionnaire_id_str,
-                    "read": True 
+                    "read": True,
                 }
 
                 question_data = {
@@ -344,7 +341,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                     "questionnaire_id": questionnaire_id_str,
                     "content": entity_q.question.content,
                     "question_type": entity_q.question.question_type.value,
-                    "answers": []
+                    "answers": [],
                 }
 
                 if entity_q.answer_id:
@@ -354,7 +351,7 @@ class QuestionnaireRouter(BaseCRUDRouter):
                         "question_id": str(entity_q.question_id),
                         "answer_type": entity_q.answer.answer_type.value,
                         "content": entity_q.answer.content,
-                        "mark_as_read": entity_q.mark_as_read
+                        "mark_as_read": entity_q.mark_as_read,
                     }
                     question_data["answers"].append(answer_data)
 
@@ -365,7 +362,6 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 user_data["questionnaires"].append(questionnaire_entry)
 
             return DAOResponse(success=True, data=user_data)
-
 
         @self.router.get("/responses/{user_id}")
         async def get_user_entity_questionnaire_data_by_id(

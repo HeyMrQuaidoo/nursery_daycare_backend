@@ -71,7 +71,9 @@ class BaseModelCollection(InstrumentedList):
         # handle case when there's no parent and self is a list
         if not self._parent and isinstance(self, list):
             first_item = self.__getitem__(0) if len(self) > 0 else None
-            print(f"\t\t\t\t {first_item} {self} {first_item.__class__.__name__.lower()}")
+            print(
+                f"\t\t\t\t {first_item} {self} {first_item.__class__.__name__.lower()}"
+            )
             if first_item:
                 parent_type = first_item.__class__.__name__.lower()
 
