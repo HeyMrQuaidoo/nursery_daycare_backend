@@ -36,6 +36,7 @@ class QuestionnaireCreateSchema(QuestionnaireBase):
 class QuestionnaireUpdateSchema(QuestionnaireBase, QuestionnaireMixin):
     title: Optional[str] = None
     description: Optional[str] = None
+    mark_as_read: Optional[bool] = None
 
     model_config = ConfigDict(
         from_attributes=True,

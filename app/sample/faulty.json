@@ -1,0 +1,49 @@
+{
+  "answers": [
+    {
+      "answer_type": "multichoice",
+      "content": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5_Yearly",
+      "mark_as_read": false,
+      "question_id": "f0b5b194-6696-4a77-b045-6653b0f2b33b",
+      "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+      "entity_type": "user",
+      "answer_id": "e20bce2e-a190-47c5-8ffe-cf243db907ba"
+    },
+    {
+      "answer_type": "multichoice",
+      "content": "0a82e80b-8c2f-4458-a4d6-ac9d788ccc64_Occupational",
+      "mark_as_read": false,
+      "question_id": "fabaf238-82d0-48f3-9bba-444bba342032",
+      "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+      "entity_type": "user",
+      "answer_id": "4a036029-c569-4406-8c97-3d121f38a766"
+    },
+    {
+      "answer_type": "multichoice",
+      "content": "2405e118-9551-4ad5-a0b0-a60974ffe003_Activities",
+      "mark_as_read": false,
+      "question_id": "9e76d546-8b72-46a3-8c09-d441ad5a1178",
+      "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+      "entity_type": "user",
+      "answer_id": "c39e15a2-8ce1-4902-babe-56dd8b1c277e"
+    },
+    {
+      "answer_type": "multichoice",
+      "content": "18ccbce6-01b6-4a28-b183-cee3789ef2cc_Yes",
+      "mark_as_read": false,
+      "question_id": "18ccbce6-01b6-4a28-b183-cee3789ef2cc",
+      "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+      "entity_type": "user",
+      "answer_id": "1c80ffce-8b46-4d12-bcbb-ad54b320f4b2"
+    },
+    {
+      "answer_type": "multichoice",
+      "content": "1a0abfb6-c907-4607-900f-ea9ccd34407a_Adaptation needed at Aleva Center",
+      "mark_as_read": false,
+      "question_id": "1a0abfb6-c907-4607-900f-ea9ccd34407a",
+      "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+      "entity_type": "user",
+      "answer_id": "a3453077-10ae-46b8-8e6a-5eff0d601400"
+    }
+  ]
+}

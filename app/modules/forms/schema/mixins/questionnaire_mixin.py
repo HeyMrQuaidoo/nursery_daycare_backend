@@ -48,6 +48,25 @@ class QuestionnaireMixin:
     _questionnaire_update_json = {
         "title": _title,
         "description": _description,
+        "published": False,
+        "publish_for_registration": False,
+        "mark_as_read": False,
+        "questions": [
+            {
+                "content": _content,
+                "question_type": _question_answer_type,
+                "answers": [
+                    {
+                        "content": _answer_content_1,
+                        "answer_type": _question_answer_type,
+                    },
+                    {
+                        "content": _answer_content_2,
+                        "answer_type": _question_answer_type,
+                    },
+                ],
+            }
+        ],
     }
 
     @classmethod
@@ -95,11 +114,11 @@ class QuestionnaireBase(BaseSchema, QuestionnaireMixin):
     title: str
     description: str
     questions: Optional[List[QuestionBase]] = None
-    publish_for_registration: bool = False
-    published: bool = False
+    publish_for_registration: bool = None
+    published: bool = None
     created_at: datetime = None
     updated_at: datetime = None
-    number_of_responses: int = 0
+    number_of_responses: int = None
 
     @classmethod
     def model_validate(cls, questionnaire: QuestionnaireModel):

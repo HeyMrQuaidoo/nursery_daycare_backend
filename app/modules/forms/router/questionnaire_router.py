@@ -1,5 +1,6 @@
 from uuid import UUID
 from typing import List, Union
+from sqlalchemy import update
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from fastapi import Depends, Query, Request
@@ -267,6 +268,104 @@ class QuestionnaireRouter(BaseCRUDRouter):
                 if isinstance(result, DAOResponse)
                 else DAOResponse(success=True, data=result)
             )
+
+        @self.router.put("/{questionnaire_id}/responses/{user_id}")
+        async def update_user_entity_questionnaire_data(
+            questionnaire_id: Union[str | UUID],
+            user_id: Union[str | UUID],
+            item: QuestionnaireUpdateSchema,
+            limit: int = Query(default=10, ge=1),
+            offset: int = Query(default=0, ge=0),
+            db_session: AsyncSession = Depends(self.get_db),
+        ):
+            try:
+                update_stmt = (
+                    update(EntityQuestionnaire)
+                    .where(
+                        EntityQuestionnaire.questionnaire_id == questionnaire_id,
+                        EntityQuestionnaire.entity_id == user_id,
+                        EntityQuestionnaire.entity_type == EntityTypeEnum.user
+                    )
+                    .values(item.model_dump(exclude_none=True))
+                )
+                await db_session.execute(update_stmt)
+                await db_session.commit()
+                
+            except Exception as e:
+                await db_session.rollback()
+                raise Exception(f"Failed to mark questionnaire as read: {str(e)}")
+
+            stmt = (
+                select(EntityQuestionnaire)
+                .options(
+                    selectinload(EntityQuestionnaire.question),
+                    selectinload(EntityQuestionnaire.answer),
+                    selectinload(EntityQuestionnaire.questionnaire),
+                )
+                .where(
+                    EntityQuestionnaire.entity_type == EntityTypeEnum.user,
+                    EntityQuestionnaire.entity_id == user_id,
+                    EntityQuestionnaire.questionnaire_id == questionnaire_id,
+                )
+            )
+
+            result = await db_session.execute(stmt)
+            entity_questionnaires = result.scalars().all()
+
+            if not entity_questionnaires:
+                raise RecordNotFoundException(
+                    model="EntityQuestionnaire",
+                    id=f"{questionnaire_id} for user {user_id}"
+                )
+
+            user_data = {
+                "user_id": str(user_id),
+                "questionnaires": []
+            }
+            
+            for entity_q in entity_questionnaires:
+                questionnaire_id_str = str(entity_q.questionnaire_id)
+
+                questionnaire_entry = {
+                    "title": entity_q.questionnaire.title,
+                    "description": entity_q.questionnaire.description,
+                    "questions": [],
+                    "publish_for_registration": entity_q.questionnaire.publish_for_registration,
+                    "published": entity_q.questionnaire.published,
+                    "created_at": str(entity_q.questionnaire.created_at),
+                    "updated_at": str(entity_q.questionnaire.updated_at),
+                    "number_of_responses": entity_q.questionnaire.number_of_responses,
+                    "questionnaire_id": questionnaire_id_str,
+                    "read": True 
+                }
+
+                question_data = {
+                    "question_id": str(entity_q.question_id),
+                    "questionnaire_id": questionnaire_id_str,
+                    "content": entity_q.question.content,
+                    "question_type": entity_q.question.question_type.value,
+                    "answers": []
+                }
+
+                if entity_q.answer_id:
+                    answer_data = {
+                        "answer_id": str(entity_q.answer_id),
+                        "questionnaire_id": questionnaire_id_str,
+                        "question_id": str(entity_q.question_id),
+                        "answer_type": entity_q.answer.answer_type.value,
+                        "content": entity_q.answer.content,
+                        "mark_as_read": entity_q.mark_as_read
+                    }
+                    question_data["answers"].append(answer_data)
+
+                    if not entity_q.mark_as_read:
+                        questionnaire_entry["read"] = False
+
+                questionnaire_entry["questions"].append(question_data)
+                user_data["questionnaires"].append(questionnaire_entry)
+
+            return DAOResponse(success=True, data=user_data)
+
 
         @self.router.get("/responses/{user_id}")
         async def get_user_entity_questionnaire_data_by_id(

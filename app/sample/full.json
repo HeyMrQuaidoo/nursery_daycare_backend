@@ -1,0 +1,175 @@
+{
+    "answers": [
+        {
+            "answer_type": "multichoice",
+            "content": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5_Yearly",
+            "mark_as_read": false,
+            "question_id": "101ead88-8034-4d14-8e2a-17c693071659",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user",
+            "answer_id": "c0b61372-6f49-4c59-9edb-8fd8a7d46bf0"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "Student",
+            "mark_as_read": false,
+            "question_id": "ece871ae-a50a-4856-a591-29df628b77eb",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "KK",
+            "mark_as_read": false,
+            "question_id": "215b565c-16e0-4010-9a4a-36aa81e19b32",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "Ato Kwamena",
+            "mark_as_read": false,
+            "question_id": "1431f785-3d1f-4542-a5be-2f9fdf88be17",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "Father",
+            "mark_as_read": false,
+            "question_id": "20552699-e42d-44d0-918f-7e56a1b1d4b1",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "+23345567788",
+            "mark_as_read": false,
+            "question_id": "3e75c5de-5bec-49b9-a214-9c64b4e52ad1",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "short_text",
+            "content": "akwamena@gmail.com",
+            "mark_as_read": false,
+            "question_id": "18a6cfd0-143a-4c17-9efb-929e0d8911fa",
+            "questionnaire_id": "3dfeb5ce-7007-4ca0-bcc2-0b69c5207df6",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5_Yearly",
+            "mark_as_read": false,
+            "question_id": "f0b5b194-6696-4a77-b045-6653b0f2b33b",
+            "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+            "entity_type": "user",
+            "answer_id": "e20bce2e-a190-47c5-8ffe-cf243db907ba"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "0a82e80b-8c2f-4458-a4d6-ac9d788ccc64_Occupational",
+            "mark_as_read": false,
+            "question_id": "fabaf238-82d0-48f3-9bba-444bba342032",
+            "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+            "entity_type": "user",
+            "answer_id": "4a036029-c569-4406-8c97-3d121f38a766"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "2405e118-9551-4ad5-a0b0-a60974ffe003_Activities",
+            "mark_as_read": false,
+            "question_id": "9e76d546-8b72-46a3-8c09-d441ad5a1178",
+            "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+            "entity_type": "user",
+            "answer_id": "c39e15a2-8ce1-4902-babe-56dd8b1c277e"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "18ccbce6-01b6-4a28-b183-cee3789ef2cc_Yes",
+            "mark_as_read": false,
+            "question_id": "18ccbce6-01b6-4a28-b183-cee3789ef2cc",
+            "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+            "entity_type": "user",
+            "answer_id": "1c80ffce-8b46-4d12-bcbb-ad54b320f4b2"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "1a0abfb6-c907-4607-900f-ea9ccd34407a_Adaptation needed at Aleva Center",
+            "mark_as_read": false,
+            "question_id": "1a0abfb6-c907-4607-900f-ea9ccd34407a",
+            "questionnaire_id": "222bb298-4a8d-4335-b4e8-b30d4bf30b22",
+            "entity_type": "user",
+            "answer_id": "a3453077-10ae-46b8-8e6a-5eff0d601400"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5_Yearly",
+            "mark_as_read": false,
+            "question_id": "ca339c88-cfef-430e-8149-0de2cf71197d",
+            "questionnaire_id": "f6ac3541-f674-457d-b6e2-088461986a95",
+            "entity_type": "user",
+            "answer_id": "6b442cba-e865-4dac-9dcc-51bb1611d727"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "0a82e80b-8c2f-4458-a4d6-ac9d788ccc64_Occupational",
+            "mark_as_read": false,
+            "question_id": "60b4c4ff-f14c-4449-8523-900abf31fa4d",
+            "questionnaire_id": "f6ac3541-f674-457d-b6e2-088461986a95",
+            "entity_type": "user",
+            "answer_id": "6811ceb0-a733-4bdb-96a6-b8545283e031"
+        },
+        {
+            "answer_type": "long_text",
+            "content": "Preferences: We all know Daniel likes banku! But with which soup??",
+            "mark_as_read": false,
+            "question_id": "0a456460-1d52-439f-bd90-5a4c4e3b1fed",
+            "questionnaire_id": "f6ac3541-f674-457d-b6e2-088461986a95",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5_Yearly",
+            "mark_as_read": false,
+            "question_id": "56516d3e-b2fa-4cb8-b52e-7ce4e0c135a5",
+            "questionnaire_id": "fdb25dce-aa20-43de-a010-6a7457adb4a7",
+            "entity_type": "user",
+            "answer_id": "f9604bc8-2794-4453-a61c-4d85640987ce"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "0a82e80b-8c2f-4458-a4d6-ac9d788ccc64_Occupational",
+            "mark_as_read": false,
+            "question_id": "0a82e80b-8c2f-4458-a4d6-ac9d788ccc64",
+            "questionnaire_id": "fdb25dce-aa20-43de-a010-6a7457adb4a7",
+            "entity_type": "user",
+            "answer_id": "434f4d69-9ae7-477c-9904-776bf32d48a0"
+        },
+        {
+            "answer_type": "multichoice",
+            "content": "2405e118-9551-4ad5-a0b0-a60974ffe003_Activities",
+            "mark_as_read": false,
+            "question_id": "2405e118-9551-4ad5-a0b0-a60974ffe003",
+            "questionnaire_id": "fdb25dce-aa20-43de-a010-6a7457adb4a7",
+            "entity_type": "user",
+            "answer_id": "e6fcd6da-4cde-48ed-8e3d-618d839371d1"
+        },
+        {
+            "answer_type": "long_text",
+            "content": "Family is fully involved",
+            "mark_as_read": false,
+            "question_id": "40e931e2-9e03-4a4a-bfd4-7717c617668d",
+            "questionnaire_id": "fdb25dce-aa20-43de-a010-6a7457adb4a7",
+            "entity_type": "user"
+        },
+        {
+            "answer_type": "long_text",
+            "content": "fun-filled activities",
+            "mark_as_read": false,
+            "question_id": "9b12e77c-8fce-42f9-b5b0-8556ef916c01",
+            "questionnaire_id": "fdb25dce-aa20-43de-a010-6a7457adb4a7",
+            "entity_type": "user"
+        }
+    ]
+}

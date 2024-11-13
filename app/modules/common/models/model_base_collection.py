@@ -66,17 +66,17 @@ class BaseModelCollection(InstrumentedList):
         """Generate a unique cache key based on parent and relationship."""
         parent_type = "unknown"
         parent_id = "__default__"
-        print(f"_generate_cache_key {self._parent} {isinstance(self, list)}")
+        print(f"\t\t\t_generate_cache_key {self._parent} {isinstance(self, list)}")
 
         # handle case when there's no parent and self is a list
         if not self._parent and isinstance(self, list):
             first_item = self.__getitem__(0) if len(self) > 0 else None
-            print(f"\t {first_item} {self} {first_item.__class__.__name__.lower()}")
+            print(f"\t\t\t\t {first_item} {self} {first_item.__class__.__name__.lower()}")
             if first_item:
                 parent_type = first_item.__class__.__name__.lower()
 
         if not self._parent and parent_id != "__default__" and not parent_type:
-            print(f"returning {self._parent}")
+            print(f"\t\t\treturning {self._parent}")
             return
 
         # if there's a parent, use the parent's table name and ID
@@ -94,12 +94,12 @@ class BaseModelCollection(InstrumentedList):
         cache_key = self._generate_cache_key()
 
         if cache_key:
-            print(f"cache key: {cache_key}")
+            print(f"\t\t\tcache key: {cache_key}")
             return cache_region.get_or_create(
                 cache_key, lambda: list(InstrumentedList.__iter__(self))
             )
         else:
-            print(f"else cache key {cache_key} {self}")
+            print(f"\t\t\telse cache key {cache_key} {self}")
             return list(InstrumentedList.__iter__(self))
 
     def _invalidate_cache(self):
@@ -148,7 +148,9 @@ class BaseModelCollection(InstrumentedList):
 
         # commit the session and refresh the parent to ensure consistency
         await session.commit()
-        await session.refresh(self._parent)
+        # await session.refresh(self._parent) # Caused issue with saving child items
 
         # flush the session to ensure the collection is persisted
         await session.flush()
+
+        return item

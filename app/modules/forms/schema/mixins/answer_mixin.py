@@ -53,7 +53,7 @@ class AnswerMixin:
         return cls(
             answer_id=answer.answer_id,
             question_id=answer.question_id,
-            questionnaire_id=None
+            questionnaire_id=answer.question.questionnaire_id
             if answer.entity_questionnaires
             and not isinstance(answer.entity_questionnaires[0].question, QuestionModel)
             else answer.entity_questionnaires[0].question.questionnaire_id,

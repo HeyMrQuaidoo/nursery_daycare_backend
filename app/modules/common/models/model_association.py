@@ -88,8 +88,12 @@ class AssociationProcessor:
                 association_data[parent_attr] = parent_field
 
         # process child fields (item_id_attr)
+        print(f"\t\t\t\titem_params_attr: {item_params_attr}")
+        print(f"\t\t\t\titem: {item.__dict__} {type(item)}")
+        # process child fields (item_id_attr)
         for child_attr, child_field in item_params_attr.items():
             if hasattr(item, child_field):
+                print(f"\t\t\t\tchild_field {child_field}")
                 association_data[child_attr] = getattr(item, child_field)
 
         # merge additional params

@@ -196,12 +196,13 @@ class RelationshipConfigRegistry:
 
         # print(f"self.configs.keys(): {model_class.__name__.lower()} || {self.configs.keys()}")
         if model_class.__tablename__.lower() not in self.configs.keys():
-            print(f"\nRegistering {model_class.__name__.lower()}")
+            # print(f"\nRegistering {model_class.__name__.lower()}")
             config = self._generate_relationship_config(model_class)
             self.configs[model_class.__tablename__.lower()] = config
-            print(f"Done with Registration {model_class.__tablename__.lower()}!")
+            # print(f"Done with Registration {model_class.__tablename__.lower()}!")
         else:
-            print(f"Already Registered {model_class.__tablename__.lower()}!")
+            pass
+            # print(f"Already Registered {model_class.__tablename__.lower()}!")
 
 
 # create model registry
