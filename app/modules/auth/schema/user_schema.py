@@ -541,6 +541,18 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                     "occupation_status": "Full-time",
                     "occupation_location": "New York",
                 },
+                "media": [
+                    {
+                        "media_name": BaseFaker.word(),
+                        "media_type": BaseFaker.random_choices(
+                            ["image", "video", "audio", "document"]
+                        )[0],
+                        "content_url": BaseFaker.url(),
+                        "is_thumbnail": BaseFaker.boolean(),
+                        "caption": BaseFaker.sentence(),
+                        "description": BaseFaker.text(max_nb_chars=200),
+                    }
+                ],
                 "answers": [
                     {
                         "answer_id": "be583bfd-4609-4a64-a156-e7ab9b45337a",

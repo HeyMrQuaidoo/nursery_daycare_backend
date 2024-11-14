@@ -47,6 +47,7 @@ class UserDAO(BaseDAO[User]):
             "roles": self.role_dao,
             "accounts": self.account_dao,
             "answers": self.answer_dao,
+            "media": self.media_dao,
         }
 
         super().__init__(
