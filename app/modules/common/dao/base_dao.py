@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar, Generic, Uni
 
 # cache
 from app.cache.cacheCrud import DBOperationsWithCache
+from app.db.dbCrud import DBOperations
 
 # core
 from app.core.lifespan import get_db
@@ -15,7 +16,7 @@ from app.core.errors import RecordNotFoundException
 DBModelType = TypeVar("DBModelType")
 
 
-class BaseDAO(DBOperationsWithCache, Generic[DBModelType]):
+class BaseDAO(DBOperations, Generic[DBModelType]):
     def __init__(
         self,
         model: Type[DBModelType],
