@@ -39,6 +39,12 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_MINUTES: str
 
     CACHE_PATH: str
+    CACHE_HOST: str
+    CACHE_PORT: str
+    CACHE_PASSWORD: str
+    CACHE_USER: str
+
+    REDIS_URL: str
 
     model_config = ConfigDict(
         from_attributes=True, env_file=".env", env_file_encoding="utf-8"
