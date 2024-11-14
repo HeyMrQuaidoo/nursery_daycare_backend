@@ -192,6 +192,25 @@ class User(Base):
         "AttendanceLog", back_populates="user", lazy="selectin"
     )
 
+    # entity_media
+    entity_media: Mapped[List["EntityMedia"]] = relationship(
+        "EntityMedia",
+        primaryjoin="and_(foreign(User.user_id) == EntityMedia.entity_id, EntityMedia.entity_type == 'user')",
+        lazy="selectin",
+        overlaps="user",
+    )
+
+    # media
+    media: Mapped[List["Media"]] = relationship(
+        "Media",
+        secondary="entity_media",
+        primaryjoin="and_(User.user_id == EntityMedia.entity_id, EntityMedia.entity_type == 'user')",
+        secondaryjoin="EntityMedia.media_id == Media.media_id",
+        viewonly=True,
+        lazy="selectin",
+        collection_class=BaseModelCollection,
+    )
+
     def update_last_login_time(self):
         # Store the current login time in the last_login_time field
         self.last_login_time = self.current_login_time

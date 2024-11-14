@@ -35,6 +35,7 @@ from app.modules.forms.schema.mixins.entity_questionnaire_mixin import (
     EntityQuestionnaire,
     EntityQuestionnaireMixin,
 )
+from app.modules.resources.schema.mixins.media_mixin import MediaBase, Media
 
 # core
 from app.core.security import Hash
@@ -46,6 +47,7 @@ class UserSchema(UserBase):
     address: Optional[List[AddressBase]] = []
     accounts: Optional[List[AccountBase]] = []
     attendance_logs: Optional[List[AttendanceLog]] = []
+    media: Optional[List[Media] | List[MediaBase]] = []
 
 
 class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
@@ -189,6 +191,7 @@ class UserResponse(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             photo_url=user.photo_url,
             identification_number=user.identification_number,
             roles=user.roles,
+            media=user.media,
             user_auth_info=UserAuthInfo.get_user_auth_info(user),
             user_emergency_info=UserEmergencyInfo.get_user_emergency_info(user),
             user_employer_info=UserEmployerInfo.get_user_employer_info(user),
@@ -275,6 +278,18 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
                 "gender": _gender[0],
                 "date_of_birth": _date_of_birth,
                 "roles": [{"name": _job, "alias": _job, "description": _job}],
+                "media": [
+                    {
+                        "media_name": BaseFaker.word(),
+                        "media_type": BaseFaker.random_choices(
+                            ["image", "video", "audio", "document"]
+                        )[0],
+                        "content_url": BaseFaker.url(),
+                        "is_thumbnail": BaseFaker.boolean(),
+                        "caption": BaseFaker.sentence(),
+                        "description": BaseFaker.text(max_nb_chars=200),
+                    }
+                ],
                 "user_emergency_info": {
                     "emergency_contact_name": BaseFaker.name(),
                     "emergency_contact_email": BaseFaker.email(),
@@ -432,6 +447,7 @@ class UserCreateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             user_employer_info=UserEmployerInfo.get_user_employer_info(user),
             created_at=user.created_at,
             attendance_logs=user.attendance_logs,
+            media=user.media,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
             questionnaires=cls.get_entity_questionnaire_info(
@@ -605,6 +621,7 @@ class UserUpdateSchema(UserHiddenFields, UserSchema, EntityQuestionnaireMixin):
             user_employer_info=UserEmployerInfo.get_user_employer_info(user),
             created_at=user.created_at,
             attendance_logs=user.attendance_logs,
+            media=user.media,
             address=AddressMixin.get_address_base(user.address),
             accounts=AccountBase.model_validate(user.accounts),
             questionnaires=cls.get_entity_questionnaire_info(

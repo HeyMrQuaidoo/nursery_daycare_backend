@@ -12,7 +12,7 @@ from app.modules.common.dao.base_dao import BaseDAO
 from app.modules.forms.dao.answer_dao import AnswerDAO
 from app.modules.billing.dao.account_dao import AccountDAO
 from app.modules.address.dao.address_dao import AddressDAO
-
+from app.modules.resources.dao.media_dao import MediaDAO
 
 # models
 from app.modules.auth.models.user import User
@@ -25,6 +25,7 @@ from app.core.response import DAOResponse
 
 # services
 from app.services.email_service import EmailService
+
 
 UNSUBSCRIBE_LINK = "https://nursery-daycare-backend.onrender.com/auth/mail-unsubscribe?email={}&token={}"
 VERIFICATION_LINK = (
@@ -40,6 +41,7 @@ class UserDAO(BaseDAO[User]):
         self.address_dao = AddressDAO()
         self.account_dao = AccountDAO()
         self.answer_dao = AnswerDAO()
+        self.media_dao = MediaDAO()
         self.detail_mappings = {
             "address": self.address_dao,
             "roles": self.role_dao,

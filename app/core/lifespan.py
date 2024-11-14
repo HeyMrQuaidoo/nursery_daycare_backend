@@ -47,7 +47,7 @@ async def lifespan(app: FastAPI):
     # cache
     cache_manager.get_instance()
     await cache_manager._initialize_cache_module()
-    
+
     yield
 
     logger.info("Shutting down")

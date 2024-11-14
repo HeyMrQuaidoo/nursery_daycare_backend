@@ -288,7 +288,9 @@ class DBOperationsWithCache(DBOperations):
         """
         Executes a query with join conditions using the cache-aware CRUD operations.
         """
-        cache_key = f"{settings.APP_NAME}:{self.model.__name__}:joins:{filters}:{skip}:{limit}"
+        cache_key = (
+            f"{settings.APP_NAME}:{self.model.__name__}:joins:{filters}:{skip}:{limit}"
+        )
         if self.cache_crud:
             cached_data = await self.cache_crud.get(cache_key)
             if cached_data:

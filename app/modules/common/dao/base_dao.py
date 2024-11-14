@@ -30,7 +30,7 @@ class BaseDAO(DBOperationsWithCache, Generic[DBModelType]):
         self.model = model
         self.excludes = excludes
         self.detail_mappings = detail_mappings
-        
+
         super().__init__(
             model=model,
             detail_mappings=detail_mappings,
