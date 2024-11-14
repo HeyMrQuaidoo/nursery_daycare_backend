@@ -46,6 +46,7 @@ python-dotenv==1.0.1
 python-multipart==0.0.9
 pytz==2024.1
 PyYAML==6.0.1
+redis==5.0.4
 rich==13.7.1
 shellingham==1.5.4
 six==1.16.0
