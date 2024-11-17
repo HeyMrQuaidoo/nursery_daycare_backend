@@ -54,7 +54,7 @@ class UserRouter(BaseCRUDRouter):
             if not current_user:
                 raise HTTPException(status_code=404, detail="Item not found")
 
-            if current_user.is_onboarded:
+            if current_user.is_onboarded and not current_user.is_approved:
                 email_service = EmailService()
 
                 asyncio.create_task(
