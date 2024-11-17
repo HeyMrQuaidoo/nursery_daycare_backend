@@ -170,7 +170,7 @@ class AuthRouter(BaseCRUDRouter):
                     detail="User account not verified or using a login provider",
                 )
 
-        @self.router.get("/onboarding/{user_id}")
+        @self.router.post("/onboarding/{user_id}")
         async def onboarding_send_email_user_id(
             user_id: str, db: AsyncSession = Depends(self.get_db)
         ):
@@ -200,7 +200,7 @@ class AuthRouter(BaseCRUDRouter):
             else:
                 raise HTTPException(
                     status_code=400,
-                    detail="You need to fill out the registration forms to be onboarded.",
+                    detail=f"User with ID {current_user.user_id} has already filled out the registration forms!",
                 )
 
         @self.router.get("/mail-unsubscribe")
