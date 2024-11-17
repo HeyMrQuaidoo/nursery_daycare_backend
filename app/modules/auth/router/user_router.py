@@ -36,7 +36,7 @@ class UserRouter(BaseCRUDRouter):
         async def get_user_stats(db_session: AsyncSession = Depends(self.get_db)):
             # Query for the count of registered users (is_verified=True and is_onboarded=True)
             registered_query = select(func.count(User.user_id)).where(
-                User.is_verified == True,  # noqa E712
+                User.is_approved == True,  # noqa E712
                 User.is_onboarded == True,  # noqa E712
             )
             registered_count_result = await db_session.execute(registered_query)
@@ -44,7 +44,7 @@ class UserRouter(BaseCRUDRouter):
 
             # Query for the count of users with is_onboarded=False
             not_onboarded_query = select(func.count(User.user_id)).where(
-                User.is_onboarded == False  # noqa E712
+                User.is_approved == False  # noqa E712
             )
             not_onboarded_count_result = await db_session.execute(not_onboarded_query)
             not_onboarded_count = not_onboarded_count_result.scalar()
@@ -53,6 +53,7 @@ class UserRouter(BaseCRUDRouter):
             active_users_query = select(func.count(User.user_id)).where(
                 User.is_disabled == False,  # noqa E712
                 User.is_onboarded == True,  # noqa E712
+                User.is_approved == True,  # noqa E712
             )
             active_users_count_result = await db_session.execute(active_users_query)
             active_users_count = active_users_count_result.scalar()
