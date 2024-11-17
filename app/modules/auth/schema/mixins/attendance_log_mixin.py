@@ -22,8 +22,6 @@ class AttendanceLog(AttendanceLogBase):
 class GuestAttendance(BaseSchema):
     email: Optional[str]
     attendance_type: Optional[AttendanceLogType] = None
-    check_in: Optional[bool] = None
-    check_out: Optional[bool] = None
 
 
 class AttendanceLogInfoMixin:

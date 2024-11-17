@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from fastapi import status
 from email.mime.text import MIMEText
 from fastapi.exceptions import HTTPException
@@ -62,6 +63,16 @@ class EmailService:
         except EmailSendException as e:
             error_message = f"Error sending email: {e.detail}"
             raise HTTPException(status_code=500, detail=error_message)
+
+    async def send_onboarding_success(
+        self, user_email: str, user_info: Dict[str, Any]
+    ):
+        return await self.send_template_email(
+            to=user_email,
+            subject="Onboarding Form Submitted",
+            template_name="onboardingCompleted.html",
+            user_info=user_info,
+        )
 
     async def send_user_email(
         self, user_email: str, user_name: str, verify_link: str, subscription_link: str

@@ -169,6 +169,39 @@ class AuthRouter(BaseCRUDRouter):
                     status_code=400,
                     detail="User account not verified or using a login provider",
                 )
+        
+        @self.router.get("/onboarding/{user_id}")
+        async def onboarding_send_email_user_id(
+            user_id: str,  db: AsyncSession = Depends(self.get_db)
+        ):
+            current_user: Union[User, None] = await self.user_dao.query(
+                db_session=db, filters={"user_id": user_id}, single=True
+            )
+
+            if current_user is None:
+                raise HTTPException(status_code=400, detail="User not found")
+            
+            if current_user.is_onboarded:
+                email_service = EmailService()
+
+                asyncio.create_task(
+                    email_service.send_onboarding_success(
+                        "code@compyler.io",
+                        {
+                            "first_name": current_user.first_name,
+                            "last_name": current_user.last_name,
+                            "email": current_user.email,
+                            "phone_number": current_user.phone_number,
+                        }
+                    )
+                )
+
+                return RedirectResponse(url="https://aleva.compyler.io/onboarding")
+            else:
+                raise HTTPException(
+                    status_code=400,
+                    detail="You need to fill out the registration forms to be onboarded.",
+                )
 
         @self.router.get("/mail-unsubscribe")
         async def mail_unsubscribe(
