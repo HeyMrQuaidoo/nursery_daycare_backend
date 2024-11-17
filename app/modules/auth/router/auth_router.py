@@ -130,7 +130,9 @@ class AuthRouter(BaseCRUDRouter):
                 raise HTTPException(status_code=400, detail="User not found")
 
             if current_user.is_verified:
-                return RedirectResponse(url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}")
+                return RedirectResponse(
+                    url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}"
+                )
 
             if (
                 not current_user.is_verified
@@ -156,9 +158,13 @@ class AuthRouter(BaseCRUDRouter):
                         )
                     )
 
-                    return RedirectResponse(url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}")
+                    return RedirectResponse(
+                        url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}"
+                    )
             else:
-                return RedirectResponse(url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}")
+                return RedirectResponse(
+                    url=f"https://aleva.compyler.io/onboarding/{current_user.user_id}"
+                )
                 raise HTTPException(
                     status_code=400,
                     detail="User account not verified or using a login provider",
