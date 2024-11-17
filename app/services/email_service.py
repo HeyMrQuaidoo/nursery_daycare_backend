@@ -64,9 +64,7 @@ class EmailService:
             error_message = f"Error sending email: {e.detail}"
             raise HTTPException(status_code=500, detail=error_message)
 
-    async def send_onboarding_success(
-        self, user_email: str, user_info: Dict[str, Any]
-    ):
+    async def send_onboarding_success(self, user_email: str, user_info: Dict[str, Any]):
         return await self.send_template_email(
             to=user_email,
             subject="Onboarding Form Submitted",

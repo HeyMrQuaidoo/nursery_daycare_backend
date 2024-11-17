@@ -118,10 +118,12 @@ class AttendanceLogRouter(BaseCRUDRouter):
                         )
             except Exception as e:
                 raise CustomException(e)
-            
+
         @self.router.post("/guest-attendance/{user_id}")
         async def guest_attendance_by_id(
-            user_id: str,  request: GuestAttendance, db: AsyncSession = Depends(self.get_db)
+            user_id: str,
+            request: GuestAttendance,
+            db: AsyncSession = Depends(self.get_db),
         ):
             try:
                 current_user: User = await self.user_dao.user_exists(

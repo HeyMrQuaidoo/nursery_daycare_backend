@@ -169,10 +169,10 @@ class AuthRouter(BaseCRUDRouter):
                     status_code=400,
                     detail="User account not verified or using a login provider",
                 )
-        
+
         @self.router.get("/onboarding/{user_id}")
         async def onboarding_send_email_user_id(
-            user_id: str,  db: AsyncSession = Depends(self.get_db)
+            user_id: str, db: AsyncSession = Depends(self.get_db)
         ):
             current_user: Union[User, None] = await self.user_dao.query(
                 db_session=db, filters={"user_id": user_id}, single=True
@@ -180,7 +180,7 @@ class AuthRouter(BaseCRUDRouter):
 
             if current_user is None:
                 raise HTTPException(status_code=400, detail="User not found")
-            
+
             if current_user.is_onboarded:
                 email_service = EmailService()
 
@@ -192,7 +192,7 @@ class AuthRouter(BaseCRUDRouter):
                             "last_name": current_user.last_name,
                             "email": current_user.email,
                             "phone_number": current_user.phone_number,
-                        }
+                        },
                     )
                 )
 
