@@ -54,25 +54,25 @@ class UserRouter(BaseCRUDRouter):
             if not current_user:
                 raise HTTPException(status_code=404, detail="Item not found")
 
-            if current_user.is_onboarded and not current_user.is_approved:
+            # Perform the update operation
+            updated_user = await self.dao.update(
+                db_session=db_session, db_obj=current_user, obj_in=item
+            )
+
+            if updated_user.is_onboarded and not updated_user.is_approved:
                 email_service = EmailService()
 
                 asyncio.create_task(
                     email_service.send_onboarding_success(
                         "code@compyler.io",
                         {
-                            "first_name": current_user.first_name,
-                            "last_name": current_user.last_name,
-                            "email": current_user.email,
-                            "phone_number": current_user.phone_number,
+                            "first_name": updated_user.first_name,
+                            "last_name": updated_user.last_name,
+                            "email": updated_user.email,
+                            "phone_number": updated_user.phone_number,
                         },
                     )
                 )
-
-            # Perform the update operation
-            updated_item = await self.dao.update(
-                db_session=db_session, db_obj=current_user, obj_in=item
-            )
 
             # Determine how to call model_validate
             method = getattr(self.update_schema, "model_validate")
@@ -85,9 +85,9 @@ class UserRouter(BaseCRUDRouter):
 
             return DAOResponse(
                 success=True,
-                data=updated_item
-                if isinstance(updated_item, DAOResponse)
-                else model_validate(updated_item),
+                data=updated_user
+                if isinstance(updated_user, DAOResponse)
+                else model_validate(updated_user),
             )
 
         @self.router.get("/stats/")
