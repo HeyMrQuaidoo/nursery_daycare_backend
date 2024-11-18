@@ -1,11 +1,7 @@
-import asyncio
-from functools import partial
-import inspect
-from typing import List, Union
-from uuid import UUID
+from typing import List
 from sqlalchemy import func
 from sqlalchemy.future import select
-from fastapi import Depends, HTTPException, Query, Request
+from fastapi import Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # dao
@@ -24,7 +20,6 @@ from app.modules.auth.schema.user_schema import UserCreateSchema, UserUpdateSche
 # core
 from app.core.response import DAOResponse
 from app.core.errors import CustomException, RecordNotFoundException, IntegrityError
-from app.services.email_service import EmailService
 
 
 class UserRouter(BaseCRUDRouter):
@@ -37,59 +32,6 @@ class UserRouter(BaseCRUDRouter):
         self.register_routes()
 
     def register_routes(self):
-        @self.router.put("/{id}")
-        async def update(
-            id: Union[UUID, str, int],
-            item: self.update_schema,
-            db_session: AsyncSession = Depends(self.get_db),
-        ) -> DAOResponse:
-            user_id = int(id) if isinstance(id, str) and id.isdigit() else id
-
-            # Query the database for the item
-            current_user: Union[User, None] = await self.dao.query(
-                db_session, filters={f"{self.dao.primary_key}": user_id}, single=True
-            )
-
-            # If item is not found, raise a 404 error
-            if not current_user:
-                raise HTTPException(status_code=404, detail="Item not found")
-
-            # Perform the update operation
-            updated_user = await self.dao.update(
-                db_session=db_session, db_obj=current_user, obj_in=item
-            )
-
-            if updated_user.is_onboarded and not updated_user.is_approved:
-                email_service = EmailService()
-
-                asyncio.create_task(
-                    email_service.send_onboarding_success(
-                        "code@compyler.io",
-                        {
-                            "first_name": updated_user.first_name,
-                            "last_name": updated_user.last_name,
-                            "email": updated_user.email,
-                            "phone_number": updated_user.phone_number,
-                        },
-                    )
-                )
-
-            # Determine how to call model_validate
-            method = getattr(self.update_schema, "model_validate")
-            signature = inspect.signature(method)
-
-            if "for_insertion" in signature.parameters:
-                model_validate = partial(method, for_insertion=False)
-            else:
-                model_validate = method
-
-            return DAOResponse(
-                success=True,
-                data=updated_user
-                if isinstance(updated_user, DAOResponse)
-                else model_validate(updated_user),
-            )
-
         @self.router.get("/stats/")
         async def get_user_stats(db_session: AsyncSession = Depends(self.get_db)):
             # Query for the count of registered users (is_verified=True and is_onboarded=True)

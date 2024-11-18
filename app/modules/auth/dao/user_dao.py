@@ -18,7 +18,7 @@ from app.modules.resources.dao.media_dao import MediaDAO
 from app.modules.auth.models.user import User
 
 # schemas
-from app.modules.auth.schema.user_schema import UserCreateSchema
+from app.modules.auth.schema.user_schema import UserCreateSchema, UserUpdateSchema
 
 # core
 from app.core.response import DAOResponse
@@ -95,6 +95,50 @@ class UserDAO(BaseDAO[User]):
                 else user_load_addr
             )
 
+        except ValidationError as e:
+            raise e
+        except Exception as e:
+            await db_session.rollback()
+            raise e
+
+    @override
+    async def update(
+        self,
+        db_session: AsyncSession,
+        db_obj: User,
+        obj_in: Union[UserUpdateSchema | Dict],
+    ) -> DAOResponse:
+        try:
+            updated_user = await super().update(
+                db_session=db_session, db_obj=db_obj, obj_in=obj_in
+            )
+
+            if updated_user.is_onboarded and not updated_user.is_approved:
+                email_service = EmailService()
+
+                asyncio.create_task(
+                    email_service.send_onboarding_success(
+                        "code@compyler.io",
+                        {
+                            "first_name": updated_user.first_name,
+                            "last_name": updated_user.last_name,
+                            "email": updated_user.email,
+                            "phone_number": updated_user.phone_number,
+                            "qr_code": next(
+                                (
+                                    item.content_url
+                                    for item in updated_user.media
+                                    if item.media_name == "aleva_qr"
+                                ),
+                                None,
+                            ),
+                        },
+                    )
+                )
+
+            return (
+                updated_user if isinstance(updated_user, DAOResponse) else updated_user
+            )
         except ValidationError as e:
             raise e
         except Exception as e:
