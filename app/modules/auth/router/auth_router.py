@@ -22,6 +22,7 @@ from app.modules.common.router.base_router import BaseCRUDRouter
 # schemas
 from app.modules.common.schema.schemas import UserSchema
 from app.modules.auth.schema.auth_schema import Login, ResetPassword
+from app.services.whatsapp_service import WhatsAppService
 
 RESET_LINK = "https://aleva-care.netlify.app/account-recovery?token={}"
 ONBOARDING_LINK = "https://aleva.compyler.io/onboarding"
@@ -146,6 +147,7 @@ class AuthRouter(BaseCRUDRouter):
 
                 if response:
                     email_service = EmailService()
+                    whatsapp_service = WhatsAppService()
 
                     asyncio.create_task(
                         email_service.send_welcome_email(
@@ -156,6 +158,12 @@ class AuthRouter(BaseCRUDRouter):
                                 current_user.email, current_user.is_subscribed_token
                             ),
                         )
+                    )
+
+                    response = whatsapp_service.send_message(
+                        recipient=current_user.phone_number,
+                        template_name="onboarding",
+                        header_text=f"{current_user.first_name} {current_user.last_name}",
                     )
 
                     return RedirectResponse(
