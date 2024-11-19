@@ -118,6 +118,7 @@ class EntityQuestionnaireMixin:
 
                 question_dict = {
                     "question_id": question_id,
+                    "question_type": question.question_type,
                     "content": question.content if question else None,
                     "answers": [],
                 }
@@ -135,6 +136,7 @@ class EntityQuestionnaireMixin:
 
                     answer_dict = {
                         "answer_id": answer_id,
+                        "answer_type": answer.answer_type,
                         "content": answer.content if answer else None,
                         "details": answer_details,
                     }
