@@ -41,6 +41,7 @@ class UserBaseMixin:
     def get_user_info(cls, user: UserModel):
         return UserBase(
             user_id=user.user_id,
+            is_approved=user.is_approved,
             first_name=user.first_name,
             last_name=user.last_name,
             email=user.email,
