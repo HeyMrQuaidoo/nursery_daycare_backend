@@ -24,6 +24,7 @@ class UserBase(BaseSchema):
     user_id: Optional[UUID] = None
     first_name: Annotated[str, constr(max_length=128)]
     last_name: Annotated[str, constr(max_length=128)]
+    is_approved: bool
     gender: GenderEnum
     date_of_birth: Optional[Any] = Field(
         None,
