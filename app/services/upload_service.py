@@ -57,6 +57,7 @@ class MediaUploaderService:
             file_name = file_name + "_" + str(uuid.uuid4())
 
         try:
+            print(self.base64_image)
             # upload an image
             upload_result = cloudinary.uploader.upload(
                 self.base64_image,
